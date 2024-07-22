@@ -9,7 +9,7 @@ namespace RealEstateApp.Controllers
         private readonly ILogger<HomeController> _logger;
 
         public HomeController(ILogger<HomeController> logger)
-        {
+        {//hola
             _logger = logger;
         }
 
