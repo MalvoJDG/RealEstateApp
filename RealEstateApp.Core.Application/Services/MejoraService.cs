@@ -13,7 +13,7 @@ using System.Threading.Tasks;
 
 namespace RealEstateApp.Core.Application.Services
 {
-    public class MejoraService : GenericService<MejoraViewModel, MejoraViewModel, Mejora>, IMejoraService
+    public class MejoraService : GenericService<SaveMejoraViewModel, MejoraViewModel, Mejora>, IMejoraService
     {
         private readonly IMejoraRepository _mejoraRepository;
         private readonly IHttpContextAccessor _httpContextAccessor;

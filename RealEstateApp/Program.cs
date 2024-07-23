@@ -1,5 +1,6 @@
 using RealEstateApp.Core.Application;
 using RealEstateApp.Infrastructure.Persistence;
+using RealEstateApp.Infraestructure.Shared;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -8,6 +9,7 @@ builder.Services.AddControllersWithViews();
 
 builder.Services.AddPersistenceInfrastructure(builder.Configuration);
 builder.Services.AddApplicationLayer(builder.Configuration);
+builder.Services.AddSharedInfrastructure(builder.Configuration);
 
 var app = builder.Build();
 

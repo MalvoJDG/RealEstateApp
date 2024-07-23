@@ -12,7 +12,7 @@ using System.Threading.Tasks;
 
 namespace RealEstateApp.Core.Application.Services
 {
-    public class PropiedadService : GenericService<PropiedadViewModel, PropiedadViewModel, Propiedad>, IPropiedadService
+    public class PropiedadService : GenericService<SavePropiedadViewModel, PropiedadViewModel, Propiedad>, IPropiedadService
     {
         private readonly IPropiedadRepository _propiedadRepository;
         private readonly IHttpContextAccessor _httpContextAccessor;
