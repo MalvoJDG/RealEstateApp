@@ -12,7 +12,7 @@ using System.Threading.Tasks;
 
 namespace RealEstateApp.Core.Application.Services
 {
-    public class TipoVentaService : GenericService<TipoVentaViewModel, TipoVentaViewModel, TipoVenta>, ITipoVentaService
+    public class TipoVentaService : GenericService<SaveTipoVentaViewModel, TipoVentaViewModel, TipoVenta>, ITipoVentaService
     {
         private readonly ITipoVentaRepository _tipoventaRepository;
         private readonly IHttpContextAccessor _httpContextAccessor;
