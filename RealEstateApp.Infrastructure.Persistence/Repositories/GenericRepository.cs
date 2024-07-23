@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace RealEstateApp.Infrastructure.Persistence.Repositories
 {
-    public class GenericRepository<Entity> : IGenericRepositoryAsync<Entity> where Entity : class
+    public class GenericRepository<Entity> : IGenericRepository<Entity> where Entity : class
     {
         private readonly ApplicationContext _dbContext;
 
