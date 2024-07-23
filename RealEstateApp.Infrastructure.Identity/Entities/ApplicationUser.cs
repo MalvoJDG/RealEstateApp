@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Identity;
 
-namespace RedSocial.Infraestructure.Identity.Entities
+namespace RealEstateApp.Infraestructure.Identity.Entities
 {
     public class ApplicationUser : IdentityUser
     {
