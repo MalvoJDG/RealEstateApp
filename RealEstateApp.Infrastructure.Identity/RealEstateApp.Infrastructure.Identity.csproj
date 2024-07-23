@@ -1,0 +1,21 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net7.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\RealEstateApp.Core.Application\RealEstateApp.Core.Application.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Contexts\" />
+    <Folder Include="Entities\" />
+    <Folder Include="Migrations\" />
+    <Folder Include="Services\" />
+    <Folder Include="Seeds\" />
+  </ItemGroup>
+
+</Project>
