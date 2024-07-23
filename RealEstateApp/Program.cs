@@ -1,7 +1,13 @@
+using RealEstateApp.Core.Application;
+using RealEstateApp.Infrastructure.Persistence;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
+
+builder.Services.AddPersistenceInfrastructure(builder.Configuration);
+builder.Services.AddApplicationLayer(builder.Configuration);
 
 var app = builder.Build();
 
