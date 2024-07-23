@@ -7,15 +7,17 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Migrations\**" />
+    <EmbeddedResource Remove="Migrations\**" />
+    <None Remove="Migrations\**" />
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\RealEstateApp.Core.Application\RealEstateApp.Core.Application.csproj" />
   </ItemGroup>
 
   <ItemGroup>
     <Folder Include="Contexts\" />
-    <Folder Include="Entities\" />
-    <Folder Include="Migrations\" />
-    <Folder Include="Services\" />
-    <Folder Include="Seeds\" />
   </ItemGroup>
 
   <ItemGroup>

@@ -1,5 +1,8 @@
 using RealEstateApp.Core.Application;
 using RealEstateApp.Infrastructure.Persistence;
+using RealEstateApp.Infraestructure.Shared;
+using RealEstateApp.Infraestructure.Persistence;
+using RealEstateApp.Middelwares;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -10,8 +13,15 @@ builder.Services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
 
 builder.Services.AddPersistenceInfrastructure(builder.Configuration);
 builder.Services.AddApplicationLayer(builder.Configuration);
+builder.Services.AddSharedInfrastructure(builder.Configuration);
+builder.Services.AddSession();
+builder.Services.AddIdentityInfrastructure(builder.Configuration);
+builder.Services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
+builder.Services.AddTransient<ValidateUserSession, ValidateUserSession>();
 
 var app = builder.Build();
+
+await app.AddIdentitySedds();
 
 // Configure the HTTP request pipeline.
 if (!app.Environment.IsDevelopment())
@@ -21,11 +31,13 @@ if (!app.Environment.IsDevelopment())
     app.UseHsts();
 }
 
+app.UseSession();
 app.UseHttpsRedirection();
 app.UseStaticFiles();
 
 app.UseRouting();
 
+app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapControllerRoute(
