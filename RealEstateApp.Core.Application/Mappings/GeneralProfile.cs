@@ -9,6 +9,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using RealEstateApp.Core.Application.Dtos.Account;
+using RealEstateApp.Core.Application.ViewModels.Users;
 
 namespace RealEstateApp.Core.Application.Mappings
 {
@@ -36,6 +38,40 @@ namespace RealEstateApp.Core.Application.Mappings
 
             CreateMap<Mejora, SaveMejoraViewModel>()
                 .ReverseMap();
+
+            #region Mapping Identity
+
+            #region Athentication Request
+            CreateMap<AuthenticationRequest, LoginViewModel>()
+                .ForMember(x => x.HasError, opt => opt.Ignore())
+                .ForMember(x => x.Error, opt => opt.Ignore())
+                .ReverseMap();
+
+            #endregion
+
+            #region Register Request
+            CreateMap<RegisterRequest, SaveUserViewModel>()
+                .ForMember(x => x.HasError, opt => opt.Ignore())
+                .ForMember(x => x.Error, opt => opt.Ignore())
+                .ForMember(x => x.File, opt => opt.Ignore())
+                .ReverseMap();
+            #endregion
+
+            #region Forgotviewmodel
+            CreateMap<ForgotPasswordRequest, ForgotPasswordViewModel>()
+                .ForMember(x => x.HasError, opt => opt.Ignore())
+                .ForMember(x => x.Error, opt => opt.Ignore())
+                .ReverseMap();
+            #endregion
+
+            #region reset password
+            CreateMap<ResetPasswordRequest, ResetPasswordViewModel>()
+                .ForMember(x => x.HasError, opt => opt.Ignore())
+                .ForMember(x => x.Error, opt => opt.Ignore())
+                .ReverseMap();
+            #endregion
+
+            #endregion
         }
     }
 }
