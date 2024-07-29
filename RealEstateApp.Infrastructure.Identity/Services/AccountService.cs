@@ -32,6 +32,16 @@ namespace RealEstateApp.Infraestructure.Identity.Services
             _jwtSettings = jwtsettings.Value;
         }
 
+        public async Task<string> GetUserFullNameById(string userId)
+        {
+            var user = await _userManager.FindByIdAsync(userId);
+            if (user == null)
+            {
+                return null;
+            }
+
+            return $"{user.FirstName} {user.LastName}";
+        }
 
         private async Task<JwtSecurityToken> GenerateToken(ApplicationUser user)
         {
@@ -89,6 +99,61 @@ namespace RealEstateApp.Infraestructure.Identity.Services
             rngCryptoProvider.GetBytes(randombyte);
 
             return BitConverter.ToString(randombyte).Replace("-", "");
+        }
+
+        public async Task<AuthenticationResponse> ApiAuthenticationAsync(AuthenticationRequest request)
+        {
+            AuthenticationResponse response = new()
+            {
+                HasError = false
+            };
+
+            var user = await _userManager.FindByNameAsync(request.UserName);
+
+            if (user == null)
+            {
+                response.HasError = true;
+                response.Error = $"No accounts registered with {request.UserName}";
+                return response;
+            }
+
+            var result = await _signInManager.PasswordSignInAsync(user.UserName, request.Password, false, lockoutOnFailure: false);
+            if (!result.Succeeded)
+            {
+                response.HasError = true;
+                response.Error = $"Invalid credentials for {request.UserName}";
+                return response;
+            }
+
+            if (!user.EmailConfirmed)
+            {
+                response.HasError = true;
+                response.Error = $"The email is not confirmed for {request.UserName}";
+                return response;
+            }
+
+            var roles = await _userManager.GetRolesAsync(user);
+            if (!roles.Contains("ADMIN") && !roles.Contains("DESARROLLADOR"))
+            {
+                response.HasError = true;
+                response.Error = "You do not have permission to access this web API.";
+                return response;
+            }
+
+            JwtSecurityToken jwtSecurityToken = await GenerateToken(user);
+
+            response.Id = user.Id;
+            response.Email = user.Email;
+            response.UserName = user.UserName;
+            response.ProfilePictureUrl = user.ProfilePictureUrl;
+            response.JwToken = new JwtSecurityTokenHandler().WriteToken(jwtSecurityToken);
+            var refreshToken = GenerateRefreshToken();
+            response.RefreshToken = refreshToken.Token;
+
+            response.Roles = roles.ToList();
+            response.IsVerified = user.EmailConfirmed;
+
+            return response;
         }
 
         public async Task<AuthenticationResponse> AutheticationAsync(AuthenticationRequest request)
@@ -191,6 +256,104 @@ namespace RealEstateApp.Infraestructure.Identity.Services
             {
                 response.HasError = true;
                 response.Error = $"A error has ocurred in the register";
+                return response;
+            }
+
+            return response;
+        }
+
+        public async Task<RegisterResponse> RegisterAdminUserAsync(RegisterRequest request, string origin)
+        {
+            RegisterResponse response = new()
+            {
+                HasError = false
+            };
+
+            var UserSameName = await _userManager.FindByNameAsync(request.UserName);
+            if (UserSameName != null)
+            {
+                response.HasError = true;
+                response.Error = $"The UserName '{request.UserName}' already exists";
+                return response;
+            }
+
+            var UserSameEmail = await _userManager.FindByEmailAsync(request.Email);
+            if (UserSameEmail != null)
+            {
+                response.HasError = true;
+                response.Error = $"The email '{request.Email}' is already register";
+                return response;
+            }
+
+            var user = new ApplicationUser()
+            {
+                Email = request.Email,
+                FirstName = request.FirstName,
+                LastName = request.LastName,
+                UserName = request.UserName,
+                PhoneNumber = request.Phone,
+                ProfilePictureUrl = request.ProfilePictureUrl,
+                EmailConfirmed = true
+            };
+
+            var result = await _userManager.CreateAsync(user, request.Password);
+            if (result.Succeeded)
+            {
+                await _userManager.AddToRoleAsync(user, Roles.ADMIN.ToString());
+            }
+            else
+            {
+                response.HasError = true;
+                response.Error = $"An error occurred trying to register the user.";
+                return response;
+            }
+
+            return response;
+        }
+
+        public async Task<RegisterResponse> RegisterDevUserAsync(RegisterRequest request, string origin)
+        {
+            RegisterResponse response = new()
+            {
+                HasError = false
+            };
+
+            var UserSameName = await _userManager.FindByNameAsync(request.UserName);
+            if (UserSameName != null)
+            {
+                response.HasError = true;
+                response.Error = $"The UserName '{request.UserName}' already exists";
+                return response;
+            }
+
+            var UserSameEmail = await _userManager.FindByEmailAsync(request.Email);
+            if (UserSameEmail != null)
+            {
+                response.HasError = true;
+                response.Error = $"The email '{request.Email}' is already register";
+                return response;
+            }
+
+            var user = new ApplicationUser()
+            {
+                Email = request.Email,
+                FirstName = request.FirstName,
+                LastName = request.LastName,
+                UserName = request.UserName,
+                PhoneNumber = request.Phone,
+                ProfilePictureUrl = request.ProfilePictureUrl,
+                EmailConfirmed = true
+            };
+
+            var result = await _userManager.CreateAsync(user, request.Password);
+            if (result.Succeeded)
+            {
+                await _userManager.AddToRoleAsync(user, Roles.DESARROLLADOR.ToString());
+            }
+            else
+            {
+                response.HasError = true;
+                response.Error = $"An error occurred trying to register the user.";
                 return response;
             }
 

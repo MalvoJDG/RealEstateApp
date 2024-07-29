@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Http;
+using Microsoft.EntityFrameworkCore;
 using RealEstateApp.Core.Application.Interfaces.Repositories;
 using RealEstateApp.Core.Application.Interfaces.Services;
 using RealEstateApp.Core.Application.ViewModels.Propiedades;
@@ -23,6 +24,19 @@ namespace RealEstateApp.Core.Application.Services
             _propiedadRepository = propiedadRepository;
             _httpContextAccessor = httpContextAccessor;
             _mapper = mapper;
+        }
+
+        public async Task<int> GetPropiedadesCountByAgenteId(string agenteId)
+        {
+            return await _propiedadRepository.CountByAgenteIdAsync(agenteId);
+        }
+
+        public async Task<IEnumerable<PropiedadDto>> GetPropiedadesByAgenteId(string agenteId)
+        {
+            var propiedades = await _propiedadRepository.GetAllAsync();
+            var propiedadesFiltradas = propiedades.Where(p => p.AgenteId == agenteId).ToList();
+
+            return _mapper.Map<IEnumerable<PropiedadDto>>(propiedadesFiltradas);
         }
     }
 }

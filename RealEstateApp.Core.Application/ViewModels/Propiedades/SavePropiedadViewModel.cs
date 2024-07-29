@@ -20,5 +20,6 @@ namespace RealEstateApp.Core.Application.ViewModels.Propiedades
         public string Mejoras { get; set; }
         public string Imagenes { get; set; }
         public string AgenteId { get; set; }
+        public string AgenteNombreCompleto { get; set; }
     }
 }
