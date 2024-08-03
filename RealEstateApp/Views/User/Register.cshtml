@@ -73,19 +73,19 @@
                         <div class="mb-3">
                             <label asp-for="File">Profile Picture</label>
                             <input type="file" class="form-control" asp-for="File">
+                            <span asp-validation-for="File" class="text-danger"></span>
                         </div>
 
                         <div class="mb-3">
                             <label asp-for="Tipo" class="form-label">Tipo: </label>
                             <select asp-for="Tipo" class="form-control" id="tipoSelect">
-                                @foreach (var rol in Enum.GetValues(typeof(Roles)))
+                                @foreach (var rol in Enum.GetValues(typeof(Roles)).Cast<Roles>().Where(r => r == Roles.AGENTE || r == Roles.CLIENTE))
                                 {
                                     <option value="@rol">@rol</option>
                                 }
                             </select>
                             <span asp-validation-for="Tipo" class="text-danger"></span>
                         </div>
-
 
                         <button type="submit" class="btn btn-primary">Save</button>
                         <a asp-controller="User" asp-action="Index" class="btn btn-warning">Back</a>

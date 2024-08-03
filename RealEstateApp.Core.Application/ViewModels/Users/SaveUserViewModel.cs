@@ -37,7 +37,8 @@ namespace RealEstateApp.Core.Application.ViewModels.Users
         public string Phone { get; set; }
 
         [DataType(DataType.Upload)]
-        public IFormFile? File { get; set; }
+        [Required(ErrorMessage = "Debe colocar una foto de perfil")]
+        public IFormFile File { get; set; }
 
         public string? ProfilePictureUrl { get; set; }
 

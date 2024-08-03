@@ -241,7 +241,7 @@ namespace RealEstateApp.Infraestructure.Identity.Services
             };
 
             var result = await _userManager.CreateAsync(user, request.Password);
-            if (result.Succeeded)
+            if (result.Succeeded && request.Rol == Roles.CLIENTE)
             {
                 await _userManager.AddToRoleAsync(user, Roles.CLIENTE.ToString());
                 var verificationurl = await SendVerificationEmailurlAsync(user, origin);
@@ -251,6 +251,10 @@ namespace RealEstateApp.Infraestructure.Identity.Services
                     Body = $"Confirme Your Account visiting this URL {verificationurl}",
                     Subject = "Confirm Registration"
                 });
+            }
+            else if(result.Succeeded && request.Rol == Roles.AGENTE)
+            {
+                await _userManager.AddToRoleAsync(user, Roles.AGENTE.ToString());
             }
             else
             {
