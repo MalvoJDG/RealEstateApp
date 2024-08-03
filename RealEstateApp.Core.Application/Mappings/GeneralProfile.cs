@@ -31,10 +31,9 @@ namespace RealEstateApp.Core.Application.Mappings
         {
 
             CreateMap<Propiedad, PropiedadViewModel>()
-            .ForMember(x => x.AgenteNombreCompleto, opt => opt.Ignore());
+            .ReverseMap();
 
             CreateMap<Propiedad, SavePropiedadViewModel>()
-            .ForMember(x => x.AgenteNombreCompleto, opt => opt.Ignore())
             .ReverseMap();
 
             CreateMap<TipoPropiedad, TipoPropiedadViewModel>();
@@ -98,6 +97,7 @@ namespace RealEstateApp.Core.Application.Mappings
                 .ForMember(x => x.HasError, opt => opt.Ignore())
                 .ForMember(x => x.Error, opt => opt.Ignore())
                 .ForMember(x => x.File, opt => opt.Ignore())
+                .ForMember(dest => dest.Tipo, opt => opt.MapFrom(src => src.Rol))
                 .ReverseMap();
             #endregion
 
