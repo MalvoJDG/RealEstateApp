@@ -19,6 +19,11 @@ namespace RealEstateApp.Infrastructure.Persistence.Repositories
             _dbContext = dbContext;
         }
 
+        public async Task<int> CountByAgenteIdAsync(string agenteId)
+        {
+            return await _dbContext.Propiedades.CountAsync(p => p.AgenteId == agenteId);
+        }
+
     }
 }
 

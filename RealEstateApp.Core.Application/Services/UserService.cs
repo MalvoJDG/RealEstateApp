@@ -31,6 +31,18 @@ namespace RealEstateApp.Core.Application.Services
             return await _accountService.RegisterBasicUserAsync(RegisterRequest, origin);
         }
 
+        public async Task<RegisterResponse> RegisterAdminAsyncs(SaveUserViewModel vm, string origin)
+        {
+            RegisterRequest RegisterRequest = _mapper.Map<RegisterRequest>(vm);
+            return await _accountService.RegisterAdminUserAsync(RegisterRequest, origin);
+        }
+
+        public async Task<RegisterResponse> RegisterDevAsyncs(SaveUserViewModel vm, string origin)
+        {
+            RegisterRequest RegisterRequest = _mapper.Map<RegisterRequest>(vm);
+            return await _accountService.RegisterDevUserAsync(RegisterRequest, origin);
+        }
+
         public async Task<string> ConfirmEmailAsyncs(string userId, string token)
         {
             return await _accountService.ConfirmEmailAsync(userId, token);
@@ -52,9 +64,10 @@ namespace RealEstateApp.Core.Application.Services
             await _accountService.SingoutAsyncs();
         }
 
-
-
-
+        public async Task<string> GetUserFullNameById(string userId)
+        {
+            return await _accountService.GetUserFullNameById(userId);
+        }
 
     }
 }

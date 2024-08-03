@@ -15,6 +15,7 @@ using System.Text;
 using Microsoft.AspNetCore.Http;
 using Newtonsoft.Json;
 using RealEstateApp.Core.Application.Dtos.Account;
+using RealEstateApp.Core.Application.Services;
 
 namespace RealEstateApp.Infraestructure.Persistence
 {
@@ -96,6 +97,7 @@ namespace RealEstateApp.Infraestructure.Persistence
             });
             #region Services
             services.AddTransient<IAccountService, AccountService>();
+            services.AddTransient<IAgenteService, AgenteService>();
             #endregion
         }
         public async static Task AddIdentitySedds(this IHost app)

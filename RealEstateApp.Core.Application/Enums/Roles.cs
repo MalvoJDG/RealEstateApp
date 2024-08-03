@@ -3,7 +3,7 @@
     public enum Roles
     {
         ADMIN,
-        DESARROLADOR,
+        DESARROLLADOR,
         CLIENTE,
         AGENTE
     }

@@ -5,6 +5,7 @@ namespace RealEstateApp.Core.Application.Interfaces.Services
 {
     public interface IPropiedadService : IGenericService<SavePropiedadViewModel, PropiedadViewModel, Propiedad>
     {
-
+        Task<int> GetPropiedadesCountByAgenteId(string agenteId);
+        Task<IEnumerable<PropiedadDto>> GetPropiedadesByAgenteId(string agenteId);
     }
 }
