@@ -33,7 +33,8 @@ namespace RealEstateApp.Core.Application.Services
                 FirstName = u.FirstName,
                 LastName = u.LastName,
                 Email = u.Email,
-                PhoneNumber = u.PhoneNumber
+                PhoneNumber = u.PhoneNumber,
+                
             });
 
             var agentes = apiAgentes.Select(async a =>

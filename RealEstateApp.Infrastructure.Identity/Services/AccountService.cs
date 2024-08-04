@@ -241,7 +241,7 @@ namespace RealEstateApp.Infraestructure.Identity.Services
             };
 
             var result = await _userManager.CreateAsync(user, request.Password);
-            if (result.Succeeded)
+            if (result.Succeeded && request.Rol == Roles.CLIENTE)
             {
                 await _userManager.AddToRoleAsync(user, Roles.CLIENTE.ToString());
                 var verificationurl = await SendVerificationEmailurlAsync(user, origin);
@@ -251,6 +251,10 @@ namespace RealEstateApp.Infraestructure.Identity.Services
                     Body = $"Confirme Your Account visiting this URL {verificationurl}",
                     Subject = "Confirm Registration"
                 });
+            }
+            else if(result.Succeeded && request.Rol == Roles.AGENTE)
+            {
+                await _userManager.AddToRoleAsync(user, Roles.AGENTE.ToString());
             }
             else
             {
@@ -499,6 +503,29 @@ namespace RealEstateApp.Infraestructure.Identity.Services
         {
             var user = await _userManager.FindByNameAsync(username);
             return user.Id;
+        }
+
+        public async Task<List<AuthenticationResponse>> GetAllUsersAsync()
+        {
+            var users = await _userManager.Users.ToListAsync();
+            var userList = new List<AuthenticationResponse>();
+
+            foreach (var user in users)
+            {
+                var roles = await _userManager.GetRolesAsync(user);
+                userList.Add(new AuthenticationResponse
+                {
+                    Id = user.Id,
+                    Email = user.Email,
+                    UserName = user.UserName,
+                    FirstName = user.FirstName,
+                    LastName = user.LastName,
+                    Roles = roles.ToList(),
+                    ProfilePictureUrl = user.ProfilePictureUrl
+                });
+            }
+
+            return userList;
         }
     }
 }

@@ -65,8 +65,11 @@ namespace RedSocial.Controllers
         {
             if (!ModelState.IsValid)
             {
+                var errors = ModelState.Values.SelectMany(v => v.Errors).Select(e => e.ErrorMessage).ToList();
+                TempData["ModelErrors"] = errors;
                 return View(vm);
             }
+
             var origin = Request.Headers["origin"];
 
             vm.ProfilePictureUrl = UploadFile(vm.File, vm.Username);
