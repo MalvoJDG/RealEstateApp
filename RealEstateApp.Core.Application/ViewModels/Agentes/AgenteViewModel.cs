@@ -13,6 +13,7 @@ namespace RealEstateApp.Core.Application.ViewModels.Agentes
         public string LastName { get; set; }
         public string Email { get; set; }
         public string PhoneNumber { get; set; }
+        public string Foto { get; set; }
         public int CantidadPropiedades { get; set; }
     }
 }

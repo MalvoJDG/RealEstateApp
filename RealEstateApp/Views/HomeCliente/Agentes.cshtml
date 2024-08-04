@@ -1,0 +1,57 @@
+﻿@model List<RealEstateApp.Core.Application.ViewModels.Agentes.AgenteViewModel>;
+
+@{
+    ViewData["Title"] = "Listado de Agentes";
+}
+
+<!-- Hero Section -->
+<section class="jumbotron text-center">
+    <div class="container">
+        <h1 class="jumbotron-heading">Listado de agentes</h1>
+    </div>
+</section>
+
+<div class="container mt-5">
+    <!-- Search Form -->
+    <div class="row mb-4">
+        <div class="col-md-6 offset-md-3">
+            <form method="get" asp-action="Buscar">
+                <div class="input-group">
+                    <input type="text" class="form-control" placeholder="Nombre del agente" name="searchString" aria-label="Nombre del agente">
+                    <div class="input-group-append">
+                        <button class="btn btn-outline-secondary" type="submit"><i class="fa fa-search"></i></button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Agent List -->
+    <div class="row">
+        @foreach (var agente in Model)
+        {
+            <div class="col-md-3">
+                <div class="card agent-card">
+                    <img src="@agente.Foto" class="card-img-top" alt="@agente.FirstName">
+                    <div class="card-body text-center">
+                        <h5 class="card-title">@agente.FirstName @agente.LastName</h5>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+</div>
+
+<style>
+    .agent-card img {
+        border-radius: 50%;
+        width: 150px;
+        height: 150px;
+        object-fit: cover;
+        margin: 20px auto;
+    }
+    .agent-card {
+        text-align: center;
+        margin: 20px 0;
+    }
+</style>

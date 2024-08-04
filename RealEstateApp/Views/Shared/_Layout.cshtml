@@ -1,4 +1,16 @@
-﻿<!DOCTYPE html>
+﻿@using Microsoft.AspNetCore.Http;
+@using RealEstateApp.Core.Application.Enums;
+@using RealEstateApp.Core.Application.Dtos.Account;
+@using RealEstateApp.Core.Application.Helpers;
+@using RealEstateApp.Core.Application.ViewModels.Users;
+@inject IHttpContextAccessor httpContext;
+
+@{
+    var Usuario = httpContext.HttpContext.Session.Get<AuthenticationResponse>("user");
+    string UserRole = httpContext.HttpContext.Session.GetString("UserRole");
+}
+
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="utf-8" />
@@ -19,12 +31,37 @@
                 </button>
                 <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
                     <ul class="navbar-nav flex-grow-1">
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
-                        </li>
+                        @if (Usuario == null)
+                        {
+                            <li class="nav-item">
+                                <a class="nav-link text-light" asp-area="" asp-controller="User" asp-action="Index">
+                                    <strong>Login</strong>
+                                </a>
+                            </li>
+                        }
+                        @if (Usuario != null)
+                        {
+                            if (Usuario.Roles.Contains(Roles.CLIENTE.ToString()))
+                            {
+                                <li class="nav-item">
+                                    <a class="nav-link text-dark" asp-area="" asp-controller="Cliente" asp-action="Index">Home</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link text-dark" asp-area="" asp-controller="HomeCliente" asp-action="Agentes">Agentes</a>
+                                </li>
+                            }
+                        }
+                        
+                        @if (Usuario != null)
+                        {
+                            <ul class="navbar-nav">
+                                <li class="nav-item">
+                                    <a class="nav-link text-light bg-danger" asp-area="" asp-controller="User" asp-action="LogOut">
+                                        <strong>Cerrar Sesión</strong>
+                                    </a>
+                                </li>
+                            </ul>
+                        }
                     </ul>
                 </div>
             </div>
