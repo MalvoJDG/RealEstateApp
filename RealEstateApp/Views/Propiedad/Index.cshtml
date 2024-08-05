@@ -1,0 +1,34 @@
+﻿@using RealEstateApp.Core.Application.ViewModels.Propiedades;
+
+@{
+    ViewData["Title"] = "Propiedades";
+}
+
+<div class="text-center">
+    <h1 class="display-4">Propiedades</h1>
+    <p>Controlador de propiedades
+</div>
+
+<a class="btn btn-success" asp-action="CreateView" asp-controller="Propiedad"> Crear Tipo de Venta </a>
+
+
+@foreach(PropiedadViewModel element in ViewBag.Propiedades)
+    {
+       
+    
+            <div style="display: flex; gap: 20px" >
+            @if (!string.IsNullOrEmpty(element.Imagenes))
+            {
+                var imagePaths = element.Imagenes.Split(";");
+                foreach (var imagePath in imagePaths)
+                {
+                    <div>
+                        <img src="@imagePath" style="  width : 200px; height: 200px; object-fit: contain " alt="Imagen de la propiedad" />
+                    </div>
+                }
+            }
+            </div>
+            <p> @element.Descripcion </p>
+            <p> Valor: @element.Valor </p>
+        
+    }
