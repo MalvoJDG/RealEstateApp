@@ -39,11 +39,20 @@ namespace RealEstateApp.Core.Application.Services
 
         public override Task<SavePropiedadViewModel> Add(SavePropiedadViewModel vm)
         {
-            var code = Guid.NewGuid().ToString();
-            vm.Codigo = code.Substring(7);
+            var code = GenerateShortCode(5);
+            vm.Codigo = code;
             vm.AgenteId = _user.Id;
             vm.AgenteNombreCompleto = _user.FirstName + " " + _user.LastName;
             return base.Add(vm);
         }
+
+        private string GenerateShortCode(int length)
+        {
+            const string chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
+            var random = new Random();
+            return new string(Enumerable.Repeat(chars, length)
+              .Select(s => s[random.Next(s.Length)]).ToArray());
+        }
+
     }
 }

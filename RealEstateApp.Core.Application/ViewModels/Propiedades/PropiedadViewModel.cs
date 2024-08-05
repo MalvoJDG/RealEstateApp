@@ -21,5 +21,17 @@ namespace RealEstateApp.Core.Application.ViewModels.Propiedades
         public string Imagenes { get; set; }
         public string AgenteId { get; set; }
         public string AgenteNombreCompleto { get; set; }
+
+        public string ObtenerPrimeraImagen()
+        {
+                if (string.IsNullOrWhiteSpace(Imagenes))
+                {
+                    return null;
+                }
+
+                var imagenes = Imagenes.Split(';', StringSplitOptions.RemoveEmptyEntries);
+                return imagenes.Length > 0 ? imagenes.Last().Trim() : null;
+            
+        }
     }
 }
