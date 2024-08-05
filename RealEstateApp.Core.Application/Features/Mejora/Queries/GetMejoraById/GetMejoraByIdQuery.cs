@@ -2,6 +2,7 @@
 using MediatR;
 using RealEstateApp.Core.Application.Interfaces.Repositories;
 using RealEstateApp.Core.Application.ViewModels.Mejoras;
+using Swashbuckle.AspNetCore.Annotations;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,8 +11,13 @@ using System.Threading.Tasks;
 
 namespace RealEstateApp.Core.Application.Features.Mejora.Queries.GetMejoraById
 {
+    /// <summary>
+    /// Parámetros para buscar la mejora por id
+    /// </summary>  
     public class GetMejoraByIdQuery : IRequest<MejoraViewModel>
     {
+        /// <example>1</example>
+        [SwaggerParameter(Description = "El id de la mejora")]
         public int Id { get; set; }
     }
     public class GetMejoraByIdQueryHandler : IRequestHandler<GetMejoraByIdQuery, MejoraViewModel>

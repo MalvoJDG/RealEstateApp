@@ -4,16 +4,24 @@ using Microsoft.AspNetCore.Mvc;
 using RealEstateApp.Core.Application.Features.Propiedad.Queries.GetAllPropiedadById;
 using RealEstateApp.Core.Application.Features.Propiedad.Queries.GetAllPropiedades;
 using RealEstateApp.Core.Application.ViewModels.Propiedades;
+using Swashbuckle.AspNetCore.Annotations;
 using System;
+using System.Net.Mime;
 using System.Threading.Tasks;
 
 namespace RealEstateApp.WebApi.Controllers.v1
 {
     [ApiVersion("1.0")]
     [Authorize(Roles = "DESARROLLADOR, ADMIN")]
+    [SwaggerTag("Mantenimiento de propiedades")]
     public class PropiedadController : BaseApiController
     {
         [HttpGet]
+        [SwaggerOperation(
+          Summary = "Listado de propiedades",
+          Description = "Muestra un listado de todas las propiedades en el sistema"
+        )]
+        [Consumes(MediaTypeNames.Application.Json)]
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(PropiedadDto))]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
@@ -30,6 +38,11 @@ namespace RealEstateApp.WebApi.Controllers.v1
         }
 
         [HttpGet("{id}")]
+        [SwaggerOperation(
+          Summary = "Propiedad por id",
+          Description = "Muestra una propiedad utilizando el id como filtro"
+        )]
+        [Consumes(MediaTypeNames.Application.Json)]
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(PropiedadDto))]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
@@ -46,6 +59,11 @@ namespace RealEstateApp.WebApi.Controllers.v1
         }
 
         [HttpGet("codigo/{codigo}")]
+        [SwaggerOperation(
+          Summary = "Propiedad por código",
+          Description = "Muestra una propiedad utilizando el código como filtro"
+        )]
+        [Consumes(MediaTypeNames.Application.Json)]
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(PropiedadDto))]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]

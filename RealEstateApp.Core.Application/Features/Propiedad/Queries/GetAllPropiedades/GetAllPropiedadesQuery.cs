@@ -3,6 +3,7 @@ using MediatR;
 using RealEstateApp.Core.Application.Interfaces.Repositories;
 using RealEstateApp.Core.Application.Services;
 using RealEstateApp.Core.Application.ViewModels.Propiedades;
+using Swashbuckle.AspNetCore.Annotations;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
@@ -10,8 +11,13 @@ using System.Threading.Tasks;
 
 namespace RealEstateApp.Core.Application.Features.Propiedad.Queries.GetAllPropiedades
 {
+    /// <summary>
+    /// Parámetros para filtrar las propiedades por codigo
+    /// </summary>  
     public class GetAllPropiedadesQuery : IRequest<IList<PropiedadDto>>
     {
+        /// <example>123456</example>
+        [SwaggerParameter(Description = "Colocar el codigo de la propiedad por la cual quiere filtrar")]
         public string Codigo { get; set; }
     }
 

@@ -10,6 +10,9 @@ using System.Threading.Tasks;
 
 namespace RealEstateApp.Core.Application.Features.TipoVenta.Queries.GetAllTipoVentas
 {
+    /// <summary>
+    /// Parámetros para el listado de tipos de ventas
+    /// </summary>  
     public class GetAllTipoVentasQuery : IRequest<IEnumerable<TipoVentaViewModel>>
     {
     }
