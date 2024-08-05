@@ -1,0 +1,22 @@
+﻿@using RealEstateApp.Core.Application.ViewModels.TipoVentas;
+@{
+    ViewData["Title"] = "Tipos de Ventas";
+}
+
+<div class="text-center">
+    <h1 class="display-4">Tipos de Ventas</h1>
+    <p>Controlador de tipos de ventas
+</div>
+
+<a class="btn btn-success" asp-action="CreateView" asp-controller="TipoDeVenta"> Crear Tipo de Venta </a>
+
+@foreach (TipoVentaViewModel element in ViewBag.TipoVentas)
+{
+
+
+
+    <p>Nombre:  @element.Nombre </p>
+    <p>Descripcion:  @element.Descripcion </p>
+
+}
+

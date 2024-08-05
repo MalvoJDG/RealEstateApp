@@ -1,0 +1,103 @@
+﻿@using RealEstateApp.Core.Application.ViewModels.Propiedades;
+@using RealEstateApp.Core.Application.ViewModels.Mejoras;
+@using RealEstateApp.Core.Application.ViewModels.TipoPropiedades;
+@using RealEstateApp.Core.Application.ViewModels.TipoVentas;
+@model SavePropiedadViewModel
+@{
+    ViewData["Title"] = "Crear Propiedad";
+}
+
+<div class="container-fluid">
+
+    <div class="row">
+        <div class="col-6 offset-3">
+            <div class="card">
+                <div class="card-header bg-dark text-light">
+                    <h4>Crear nueva Propiedad</h4>
+                </div>
+                <div class="card-body">
+
+                    <form method="post" asp-controller="Propiedad" asp-action="Create" enctype="multipart/form-data">
+
+                        <div class="mb-3">
+                            <label asp-for="Descripcion" class="form-label">Descripcion: </label>
+                            <input asp-for="Descripcion" class="form-control" />
+                            @* <span asp-validation-for="Descripcion" class="text-danger"></span> *@
+                        </div>
+
+                        <div class="mb-3">
+                            <label asp-for="Valor" class="form-label">Valor: </label>
+                            <input asp-for="Valor" class="form-control" />
+                            @* <span asp-validation-for="Valor" class="text-danger"></span> *@
+                        </div>
+                        <div class="mb-3">
+                            <label asp-for="CantidadBaños" class="form-label">CantidadBaños: </label>
+                            <input type ="number" asp-for="CantidadBaños" class="form-control" />
+                            @* <span asp-validation-for="CantidadBaños" class="text-danger"></span> *@
+                        </div>
+                        <div class="mb-3">
+                            <label asp-for="CantidadHabitaciones" class="form-label">CantidadHabitaciones: </label>
+                            <input type="number" asp-for="CantidadHabitaciones" class="form-control" />
+                            @* <span asp-validation-for="CantidadHabitaciones" class="text-danger"></span> *@
+                        </div>
+
+                        <div class="mb-3">
+                            <label  asp-for="Tamaño" class="form-label">Tamaño (Mts): </label>
+                            <input type="number" asp-for="Tamaño" class="form-control" />
+                            @* <span asp-validation-for="Tamaño" class="text-danger"></span> *@
+                        </div>
+
+                        <div class="mb-3">
+                            <label asp-for="Tipo" class="form-label">Tipo de Propiedad </label>
+                            <select  asp-for="Tipo" class="form-select" >
+                                <option> Seleccione el Tipo de Propiedad </option>
+                                @foreach(TipoPropiedadViewModel element in ViewBag.Tipo)
+                                {
+                                    <option value="@element.Id"> @element.Nombre</option>
+                                }
+                            </select>
+                            @* <span asp-validation-for="Tipo" class="text-danger"></span> *@
+                        </div>
+
+                         <div class="mb-3">
+                            <label asp-for="TipoVenta" class="form-label">Tipo de Venta </label>
+                            <select asp-for="TipoVenta" class="form-select">
+                                <option> Seleccione el Tipo de Propiedad </option>
+                                @foreach(TipoVentaViewModel element in ViewBag.TipoVenta)
+                                {
+                                    <option value="@element.Id"> @element.Nombre</option>
+                                }
+                            </select>
+                            @* <span asp-validation-for="TipoVenta" class="text-danger"></span> *@
+                        </div>
+
+
+                        <div class="mb-3">
+                            <label asp-for="Mejoras" class="form-label">Mejora </label>
+                            <select asp-for="Mejoras" class="form-select">
+                                <option> Seleccione el Tipo de Propiedad </option>
+                                @foreach (MejoraViewModel element in ViewBag.Mejoras)
+                                {
+                                    <option value="@element.Id"> @element.Nombre</option>
+                                }
+                            </select>
+                            @* <span asp-validation-for="Mejoras" class="text-danger"></span> *@
+                        </div>
+
+                        <div class="mb-3">
+                            <label asp-for="Files" class="form-label">Imagenes: </label>
+                            <input type="file" asp-for="Files" multiple class="form-control" />
+                            @* <span asp-validation-for="Files" class="text-danger"></span> *@
+                        </div>
+
+                        <button type="submit" class="btn btn-primary">Save</button>
+                        <a asp-controller="Propiedad" asp-action="Index" class="btn btn-warning">Back</a>
+
+                    </form>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+

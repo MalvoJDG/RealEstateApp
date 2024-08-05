@@ -1,8 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using Microsoft.AspNetCore.Http;
+
 
 namespace RealEstateApp.Core.Application.ViewModels.Propiedades
 {
@@ -10,7 +7,7 @@ namespace RealEstateApp.Core.Application.ViewModels.Propiedades
     {
         public int Id { get; set; }
         public string Tipo { get; set; }
-        public string Codigo { get; set; }
+        public string? Codigo { get; set; }
         public string TipoVenta { get; set; }
         public decimal Valor { get; set; }
         public int CantidadHabitaciones { get; set; }
@@ -18,8 +15,13 @@ namespace RealEstateApp.Core.Application.ViewModels.Propiedades
         public float Tamaño { get; set; }
         public string Descripcion { get; set; }
         public string Mejoras { get; set; }
-        public string Imagenes { get; set; }
-        public string AgenteId { get; set; }
-        public string AgenteNombreCompleto { get; set; }
+        public string? Imagenes { get; set; }
+        public string? AgenteId { get; set; }
+        public string? AgenteNombreCompleto { get; set; }
+
+        public List<IFormFile> Files { get; set; }
+
+
+
     }
 }

@@ -1,0 +1,23 @@
+﻿@using RealEstateApp.Core.Application.ViewModels.TipoPropiedades;
+
+
+@{
+    ViewData["Title"] = "Tipos de Propiedades";
+}
+
+<div class="text-center">
+    <h1 class="display-4">Tipos de Propiedades</h1>
+    <p>Controlador de Tipo de propiedades</div>
+
+    <a class="btn btn-success" asp-action="CreateView" asp-controller="TipoDePropiedad"> Crear Tipo de Propiedad </a>
+
+  
+@foreach (TipoPropiedadViewModel element in ViewBag.Tipos)
+{
+
+
+
+    <p>Nombre:  @element.Nombre </p>
+    <p>Descripcion:  @element.Descripcion </p>
+
+}
