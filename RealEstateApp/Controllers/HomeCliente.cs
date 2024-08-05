@@ -6,15 +6,18 @@ namespace RealEstateApp.Controllers
     public class HomeCliente : Controller
     {
         private readonly IAgenteService22 _agenteService;
+        private readonly IPropiedadService _propiedadService;
 
-        public HomeCliente(IAgenteService22 agenteService)
+        public HomeCliente(IAgenteService22 agenteService, IPropiedadService propiedadService)
         {
             _agenteService = agenteService;
+            _propiedadService = propiedadService;
         }
 
-        public IActionResult Index()
+        public async Task<IActionResult> Index()
         {
-            return View();
+            var propiedades = await _propiedadService.GetAllViewModel();
+            return View(propiedades);
         }
 
         public async Task<IActionResult> Agentes()

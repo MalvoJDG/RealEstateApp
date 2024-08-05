@@ -1,0 +1,71 @@
+﻿@model List<RealEstateApp.Core.Application.ViewModels.Propiedades.PropiedadViewModel>
+
+@{
+    ViewData["Title"] = "Home";
+}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@ViewData["Title"]</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet">
+    <style>
+        .exclusive-badge {
+            position: absolute;
+            top: 10px;
+            left: 10px;
+            background-color: #007bff;
+            color: white;
+            padding: 5px 10px;
+            font-size: 14px;
+            font-weight: bold;
+            border-radius: 3px;
+        }
+
+        .card-custom {
+            position: relative;
+            margin-bottom: 20px;
+        }
+
+        .property-details {
+            margin-top: 10px;
+        }
+
+        .card-img-top {
+            height: 200px;
+            object-fit: cover;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="row">
+            @foreach (var property in Model)
+            {
+                <div class="col-md-3">
+                    <div class="card card-custom">
+                        <img src="@property.ObtenerPrimeraImagen()" class="card-img-top" alt="Imagen de la propiedad">
+                        <div class="exclusive-badge">EXCLUSIVA</div>
+                        <div class="card-body">
+                            <h5>@property.Tipo</h5>
+                            <p class="card-text">@property.Descripcion</p>
+                            <p class="card-text"><strong>Código</strong><br>@property.Codigo</p>
+                            <p class="card-text">
+                            <p class="card-text">@property.TipoVenta</p>
+                                <span class="text-danger">US$ @property.Valor.ToString("N2")</span>
+                            </p>
+                            <div class="property-details">
+                                <span class="mr-2"><i class="fas fa-bed"></i> @property.CantidadHabitaciones</span>
+                                <span class="mr-2"><i class="fas fa-bath"></i> @property.CantidadBaños</span>
+                                <span><i class="fas fa-ruler-combined"></i> @property.Tamaño mt<sup>2</sup></span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+    </div>
+</body>
+</html>
