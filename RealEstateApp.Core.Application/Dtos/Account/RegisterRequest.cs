@@ -1,4 +1,6 @@
-﻿namespace RealEstateApp.Core.Application.Dtos.Account
+﻿using RealEstateApp.Core.Application.Enums;
+
+namespace RealEstateApp.Core.Application.Dtos.Account
 {
     public class RegisterRequest
     {
@@ -10,5 +12,6 @@
         public string Password { get; set; }
         public string ConfirmPassword { get; set; }
         public string ProfilePictureUrl { get; set; }
+        public Roles Rol { get; set; }
     }
 }

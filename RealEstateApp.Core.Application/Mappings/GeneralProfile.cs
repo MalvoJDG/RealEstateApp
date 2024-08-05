@@ -31,10 +31,9 @@ namespace RealEstateApp.Core.Application.Mappings
         {
 
             CreateMap<Propiedad, PropiedadViewModel>()
-            .ForMember(x => x.AgenteNombreCompleto, opt => opt.Ignore());
+            .ReverseMap();
 
             CreateMap<Propiedad, SavePropiedadViewModel>()
-            .ForMember(x => x.AgenteNombreCompleto, opt => opt.Ignore())
             .ReverseMap();
 
             CreateMap<TipoPropiedad, TipoPropiedadViewModel>();
@@ -85,12 +84,16 @@ namespace RealEstateApp.Core.Application.Mappings
 
             #region Mapping Identity
 
-            #region Athentication Request
+            #region Athentication
             CreateMap<AuthenticationRequest, LoginViewModel>()
                 .ForMember(x => x.HasError, opt => opt.Ignore())
                 .ForMember(x => x.Error, opt => opt.Ignore())
                 .ReverseMap();
 
+            CreateMap<AuthenticationResponse, AgenteViewModel>()
+                .ForMember(dest => dest.Foto, opt => opt.MapFrom(src => src.ProfilePictureUrl))
+                .ForMember(dest => dest.PhoneNumber, opt => opt.Ignore()) 
+                .ForMember(dest => dest.CantidadPropiedades, opt => opt.Ignore());
             #endregion
 
             #region Register Request
@@ -98,6 +101,7 @@ namespace RealEstateApp.Core.Application.Mappings
                 .ForMember(x => x.HasError, opt => opt.Ignore())
                 .ForMember(x => x.Error, opt => opt.Ignore())
                 .ForMember(x => x.File, opt => opt.Ignore())
+                .ForMember(dest => dest.Tipo, opt => opt.MapFrom(src => src.Rol))
                 .ReverseMap();
             #endregion
 

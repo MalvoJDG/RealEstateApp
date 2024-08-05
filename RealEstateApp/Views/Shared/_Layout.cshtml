@@ -1,4 +1,16 @@
-﻿<!DOCTYPE html>
+﻿@using Microsoft.AspNetCore.Http;
+@using RealEstateApp.Core.Application.Enums;
+@using RealEstateApp.Core.Application.Dtos.Account;
+@using RealEstateApp.Core.Application.Helpers;
+@using RealEstateApp.Core.Application.ViewModels.Users;
+@inject IHttpContextAccessor httpContext;
+
+@{
+    var Usuario = httpContext.HttpContext.Session.Get<AuthenticationResponse>("user");
+    string UserRole = httpContext.HttpContext.Session.GetString("UserRole");
+}
+
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="utf-8" />
@@ -12,19 +24,48 @@
     <header>
         <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
             <div class="container-fluid">
-                <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">RealEstateApp</a>
+                <a class="navbar-brand" asp-area="" asp-controller="" asp-action="">RealEstateApp</a>
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
                         aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
                 </button>
                 <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
                     <ul class="navbar-nav flex-grow-1">
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
-                        </li>
+                        @if (Usuario == null)
+                        {
+                            <li class="nav-item">
+                                <a class="nav-link text-light" asp-area="" asp-controller="User" asp-action="Index">
+                                    <strong>Login</strong>
+                                </a>
+                            </li>
+                        }
+                        @if (Usuario != null)
+                        {
+                            if (Usuario.Roles.Contains(Roles.CLIENTE.ToString()))
+                            {
+                                <li class="nav-item">
+                                    <a class="nav-link text-dark" asp-area="" asp-controller="HomeCliente" asp-action="Index">Home</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link text-dark" asp-area="" asp-controller="HomeCliente" asp-action="Agentes">Agentes</a>
+                                </li>
+                            }
+                            if (Usuario.Roles.Contains(Roles.AGENTE.ToString()))
+                            {
+                                <li class="nav-item">
+                                    <a class="nav-link text-dark" asp-area="" asp-controller="Agent" asp-action="Index">Home</a>
+                                </li>
+                            }
+                        }
+                        
+                        @if (Usuario != null)
+                        {
+                          <li class="nav-item">
+                              <a class="nav-link text-light bg-danger" asp-area="" asp-controller="User" asp-action="LogOut">
+                                  <strong>Cerrar Sesión</strong>
+                              </a>
+                          </li>
+                        }
                     </ul>
                 </div>
             </div>
@@ -35,12 +76,6 @@
             @RenderBody()
         </main>
     </div>
-
-    <footer class="border-top footer text-muted">
-        <div class="container">
-            &copy; 2024 - RealEstateApp - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
-        </div>
-    </footer>
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>

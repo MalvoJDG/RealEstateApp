@@ -5,12 +5,8 @@ using RealEstateApp.Core.Application.Interfaces.Repositories;
 using RealEstateApp.Core.Application.Interfaces.Services;
 using RealEstateApp.Core.Application.ViewModels.Propiedades;
 using RealEstateApp.Core.Domain.Entities;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
+using RealEstateApp.Core.Application.Helpers;
+using RealEstateApp.Core.Application.ViewModels.Agentes;
 namespace RealEstateApp.Core.Application.Services
 {
     public class PropiedadService : GenericService<SavePropiedadViewModel, PropiedadViewModel, Propiedad>, IPropiedadService
@@ -18,12 +14,14 @@ namespace RealEstateApp.Core.Application.Services
         private readonly IPropiedadRepository _propiedadRepository;
         private readonly IHttpContextAccessor _httpContextAccessor;
         private readonly IMapper _mapper;
+        private readonly AgenteViewModel _user;
 
         public PropiedadService(IPropiedadRepository propiedadRepository, IHttpContextAccessor httpContextAccessor, IMapper mapper) : base(propiedadRepository, mapper)
         {
             _propiedadRepository = propiedadRepository;
             _httpContextAccessor = httpContextAccessor;
             _mapper = mapper;
+            _user = httpContextAccessor.HttpContext.Session.Get<AgenteViewModel>("user");
         }
 
         public async Task<int> GetPropiedadesCountByAgenteId(string agenteId)
@@ -38,5 +36,23 @@ namespace RealEstateApp.Core.Application.Services
 
             return _mapper.Map<IEnumerable<PropiedadDto>>(propiedadesFiltradas);
         }
+
+        public override Task<SavePropiedadViewModel> Add(SavePropiedadViewModel vm)
+        {
+            var code = GenerateShortCode(5);
+            vm.Codigo = code;
+            vm.AgenteId = _user.Id;
+            vm.AgenteNombreCompleto = _user.FirstName + " " + _user.LastName;
+            return base.Add(vm);
+        }
+
+        private string GenerateShortCode(int length)
+        {
+            const string chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
+            var random = new Random();
+            return new string(Enumerable.Repeat(chars, length)
+              .Select(s => s[random.Next(s.Length)]).ToArray());
+        }
+
     }
 }

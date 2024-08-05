@@ -17,5 +17,6 @@ namespace RealEstateApp.Core.Application.Interfaces.Services
         Task<string> GetUserIdByUsernameAsync(string username);
         Task SingoutAsyncs();
         Task<string> GetUserFullNameById(string userId);
+        Task<List<AuthenticationResponse>> GetAllUsersAsync();
     }
 }

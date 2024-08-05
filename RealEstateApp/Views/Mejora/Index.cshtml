@@ -1,0 +1,22 @@
+﻿@using RealEstateApp.Core.Application.ViewModels.Mejoras;
+
+@{
+    ViewData["Title"] = "Mejoras";
+}
+
+<div class="text-center">
+    <h1 class="display-4">Mejoras</h1>
+    <p>Controlador de mejoras
+</div>
+
+<a class="btn btn-success" asp-action="CreateView" asp-controller="Mejora"> Crear Mejora </a>
+
+@foreach (MejoraViewModel element in ViewBag.Mejoras)
+{
+
+
+   
+    <p>Nombre:  @element.Nombre </p>
+    <p>Descripcion:  @element.Descripcion </p>
+
+}

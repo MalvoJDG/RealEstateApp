@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Http;
+using RealEstateApp.Core.Application.Enums;
 using System.ComponentModel.DataAnnotations;
 
 namespace RealEstateApp.Core.Application.ViewModels.Users
@@ -36,9 +37,12 @@ namespace RealEstateApp.Core.Application.ViewModels.Users
         public string Phone { get; set; }
 
         [DataType(DataType.Upload)]
-        public IFormFile? File { get; set; }
+        [Required(ErrorMessage = "Debe colocar una foto de perfil")]
+        public IFormFile File { get; set; }
 
-        public string ProfilePictureUrl { get; set; }
+        public string? ProfilePictureUrl { get; set; }
+
+        public Roles Tipo { get; set; }
 
         public bool HasError { get; set; }
         public string? Error { get; set; }

@@ -4,6 +4,7 @@ using RealEstateApp.Core.Application.Helpers;
 using RealEstateApp.Core.Application.Services;
 using RealEstateApp.Core.Application.Dtos.Account;
 using RealEstateApp.Middelwares;
+using RealEstateApp.Core.Application.Enums;
 
 namespace RedSocial.Controllers
 {
@@ -36,7 +37,16 @@ namespace RedSocial.Controllers
             {
                 // Guardar información del usuario en la sesión
                 HttpContext.Session.Set<AuthenticationResponse>("user", userVm);
-                return RedirectToRoute(new { controller = "Home", action = "Index" });
+
+                if (userVm.Roles.Contains(Roles.CLIENTE.ToString()))
+                {
+                    return RedirectToRoute(new { controller = "HomeCliente", action = "Index" });
+                }
+                else
+                {
+                    return RedirectToRoute(new { controller = "Agent", action = "Index" });
+                }
+                
             }
             else
             {
@@ -65,8 +75,11 @@ namespace RedSocial.Controllers
         {
             if (!ModelState.IsValid)
             {
+                var errors = ModelState.Values.SelectMany(v => v.Errors).Select(e => e.ErrorMessage).ToList();
+                TempData["ModelErrors"] = errors;
                 return View(vm);
             }
+
             var origin = Request.Headers["origin"];
 
             vm.ProfilePictureUrl = UploadFile(vm.File, vm.Username);
