@@ -1,5 +1,6 @@
 ﻿using MediatR;
 using RealEstateApp.Core.Application.Interfaces.Repositories;
+using Swashbuckle.AspNetCore.Annotations;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -8,8 +9,13 @@ using System.Threading.Tasks;
 
 namespace RealEstateApp.Core.Application.Features.Mejora.Commands.DeleteMejoraById
 {
+    /// <summary>
+    /// Parámetros para eliminar mejoras
+    /// </summary>  
     public class DeleteMejoraByIdCommand : IRequest<int>
     {
+        /// <example>1</example>
+        [SwaggerParameter(Description = "El id de la mejora")]
         public int Id { get; set; }
     }
     public class DeleteMejoraByIdCommandHandler : IRequestHandler<DeleteMejoraByIdCommand, int>
