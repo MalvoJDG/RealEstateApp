@@ -1,14 +1,38 @@
-﻿@{
+﻿@using RealEstateApp.Core.Application.ViewModels.Propiedades;
+
+@{
     ViewData["Title"] = "Agentes";
 }
 
 <div class="text-center">
     <h1 class="display-4">Agentes</h1>
     <p>Controlador de agentes</div>
+</div>
 
-    <ul class="list-group">
-        <li class="list-group-item"> <a asp-controller="Propiedad" asp-action="Index" class="btn btn-primary">Propiedades </a> </li>
-        <li class="list-group-item"> <a asp-controller="TipoDePropiedad" asp-action="Index" class="btn btn-primary">Tipos de Propiedades </a> </li>
-        <li class="list-group-item"> <a asp-controller="Mejora" asp-action="Index" class="btn btn-primary">Mejoras </a> </li>
-        <li class="list-group-item"> <a asp-controller="TipoDeVenta" asp-action="Index"  class="btn btn-primary">Tipos de Ventas </a> </li>
-    </ul>
+
+
+@foreach (PropiedadViewModel element in ViewBag.Propiedades)
+{
+    <div class="card mb-3" style="width: 18rem;">
+        @if (!string.IsNullOrEmpty(element.Imagenes))
+        {
+            var imagePath = element.Imagenes.Split(";")[0];
+            <img src="@imagePath" class="card-img-top" alt="Imagen de la propiedad" style="height: 200px; object-fit: cover;">
+        }
+        <div class="card-body">
+            <h5 class="card-title">@element.Tipo</h5>
+            <p class="card-text">@element.Mejoras</p>
+            <p class="card-text"><small class="text-muted">@element.Codigo</small></p>
+            <p class="card-text">@element.TipoVenta</p>
+            <p class="card-text"><strong>US$ @element.Valor</strong></p>
+            <div class="d-flex justify-content-between">
+                <span><i class="bi bi-house-door"></i> @element.CantidadHabitaciones</span>
+                <span><i class="fa fa-bath" aria-hidden="true"></i> @element.CantidadBaños</span>
+                <span><i class="bi bi-arrows-fullscreen"></i> @element.Tamaño mt</span>
+            </div>
+        </div>
+    </div>
+}
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-icons/1.5.0/font/bootstrap-icons.min.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
+
