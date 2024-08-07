@@ -10,6 +10,9 @@ using System.Threading.Tasks;
 
 namespace RealEstateApp.Core.Application.Features.Mejora.Queries.GetAllMejoras
 {
+    /// <summary>
+    /// Parámetros para el listado de mejoras
+    /// </summary>  
     public class GetAllMejorasQuery : IRequest<IEnumerable<MejoraViewModel>>
     {
     }

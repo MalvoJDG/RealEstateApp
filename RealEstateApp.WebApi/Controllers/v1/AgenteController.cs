@@ -6,15 +6,23 @@ using RealEstateApp.Core.Application.Features.Agente.Queries.GetAllAgentes;
 using RealEstateApp.Core.Application.Features.Propiedad.Queries.GetPropiedadById;
 using RealEstateApp.Core.Application.ViewModels.Agentes;
 using RealEstateApp.Core.Application.ViewModels.Propiedades;
+using Swashbuckle.AspNetCore.Annotations;
 using System;
+using System.Net.Mime;
 using System.Threading.Tasks;
 
 namespace RealEstateApp.WebApi.Controllers.v1
 {
     [ApiVersion("1.0")]
+    [SwaggerTag("Mantenimiento de agentes")]
     public class AgenteController : BaseApiController
     {
         [HttpGet]
+        [SwaggerOperation(
+          Summary = "Listado de agentes",
+          Description = "Obtiene la información de los agentes y cuantas propiedades tienen"
+        )]
+        [Consumes(MediaTypeNames.Application.Json)]
         [Authorize(Roles = "DESARROLLADOR, ADMIN")]
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(IEnumerable<AgenteViewModel>))]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
@@ -33,6 +41,11 @@ namespace RealEstateApp.WebApi.Controllers.v1
         }
 
         [HttpGet("{id}")]
+        [SwaggerOperation(
+          Summary = "Agente por id",
+          Description = "Obtiene un agente utilizando el id como filtro"
+        )]
+        [Consumes(MediaTypeNames.Application.Json)]
         [Authorize(Roles = "DESARROLLADOR, ADMIN")]
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(AgenteViewModel))]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
@@ -51,6 +64,11 @@ namespace RealEstateApp.WebApi.Controllers.v1
         }
 
         [HttpGet("{id}/propiedades")]
+        [SwaggerOperation(
+          Summary = "Propiedad por id del agente",
+          Description = "Obtiene las propiedades de un agente utilizando el id como filtro "
+        )]
+        [Consumes(MediaTypeNames.Application.Json)]
         [Authorize(Roles = "DESARROLLADOR, ADMIN")]
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(IEnumerable<PropiedadDto>))]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
@@ -74,6 +92,11 @@ namespace RealEstateApp.WebApi.Controllers.v1
         }
 
         [HttpPatch("changestatus")]
+        [SwaggerOperation(
+          Summary = "Cambiar el estado de agente",
+          Description = "Cambie el estado de un agente a activo/inactivo"
+        )]
+        [Consumes(MediaTypeNames.Application.Json)]
         [Authorize(Roles = "ADMIN")]
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(bool))]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]

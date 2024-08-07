@@ -2,14 +2,20 @@
 using MediatR;
 using RealEstateApp.Core.Application.Interfaces.Services;
 using RealEstateApp.Core.Application.ViewModels.Agentes;
+using Swashbuckle.AspNetCore.Annotations;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 
 namespace RealEstateApp.Core.Application.Features.Agente.Queries.GetAgenteById
 {
+    /// <summary>
+    /// Parámetros para buscar al agente por id
+    /// </summary>  
     public class GetAgenteByIdQuery : IRequest<AgenteViewModel>
     {
+        /// <example>f136c302-bf1d-44a1-8555-7d8ae497cce2</example>
+        [SwaggerParameter(Description = "El id del agente")]
         public string Id { get; set; }
     }
 

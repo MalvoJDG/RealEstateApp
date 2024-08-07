@@ -3,6 +3,7 @@ using MediatR;
 using RealEstateApp.Core.Application.Interfaces.Repositories;
 using RealEstateApp.Core.Application.Services;
 using RealEstateApp.Core.Application.ViewModels.Propiedades;
+using Swashbuckle.AspNetCore.Annotations;
 using System;
 using System.Linq;
 using System.Threading;
@@ -10,8 +11,13 @@ using System.Threading.Tasks;
 
 namespace RealEstateApp.Core.Application.Features.Propiedad.Queries.GetAllPropiedadById
 {
+    /// <summary>
+    /// Parámetros para filtrar las propiedades por id
+    /// </summary>  
     public class GetPropiedadByIdQuery : IRequest<PropiedadDto>
     {
+        /// <example>1</example>
+        [SwaggerParameter(Description = "Colocar el id por el cual quiere filtrar las propiedades")]
         public int Id { get; set; }
     }
 

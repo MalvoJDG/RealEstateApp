@@ -6,13 +6,21 @@ using RealEstateApp.Core.Application.Features.Mejora.Commands.UpdateMejora;
 using RealEstateApp.Core.Application.Features.Mejora.Queries.GetAllMejoras;
 using RealEstateApp.Core.Application.Features.Mejora.Queries.GetMejoraById;
 using RealEstateApp.Core.Application.ViewModels.Mejoras;
+using Swashbuckle.AspNetCore.Annotations;
+using System.Net.Mime;
 
 namespace RealEstateApp.WebApi.Controllers.v1
 {
     [ApiVersion("1.0")]
+    [SwaggerTag("Mantenimiento de mejoras")]
     public class MejoraController : BaseApiController
     {
         [HttpGet]
+        [SwaggerOperation(
+          Summary = "Listado de mejoras",
+          Description = "Obtiene todo el listado de mejoras creado en el sistema"
+        )]
+        [Consumes(MediaTypeNames.Application.Json)]
         [Authorize(Roles = "DESARROLLADOR, ADMIN")]
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(MejoraViewModel))]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
@@ -30,6 +38,11 @@ namespace RealEstateApp.WebApi.Controllers.v1
         }
 
         [HttpGet("{id}")]
+        [SwaggerOperation(
+          Summary = "Mejora por id",
+          Description = "Obtiene una mejora utilizando el id como filtro"
+        )]
+        [Consumes(MediaTypeNames.Application.Json)]
         [Authorize(Roles = "DESARROLLADOR, ADMIN")]
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(SaveMejoraViewModel))]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
@@ -46,6 +59,11 @@ namespace RealEstateApp.WebApi.Controllers.v1
             }
         }
         [HttpPost]
+        [SwaggerOperation(
+          Summary = "Creación de mejora",
+          Description = "Recibe los parametros necesarios para crear una nueva mejora"
+        )]
+        [Consumes(MediaTypeNames.Application.Json)]
         [Authorize(Roles = "ADMIN")]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
@@ -69,6 +87,11 @@ namespace RealEstateApp.WebApi.Controllers.v1
         }
 
         [HttpPut("{id}")]
+        [SwaggerOperation(
+          Summary = "Modificar mejora",
+          Description = "Recibe los parametros necesarios para modificar una mejora existente"
+        )]
+        [Consumes(MediaTypeNames.Application.Json)]
         [Authorize(Roles = "ADMIN")]
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(SaveMejoraViewModel))]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
@@ -94,6 +117,11 @@ namespace RealEstateApp.WebApi.Controllers.v1
         }
 
         [HttpDelete("{id}")]
+        [SwaggerOperation(
+          Summary = "Eliminar una mejora",
+          Description = "Recibe los parametros necesarios para eliminar una mejora existente"
+        )]
+        [Consumes(MediaTypeNames.Application.Json)]
         [Authorize(Roles = "ADMIN")]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]

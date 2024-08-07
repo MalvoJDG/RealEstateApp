@@ -2,6 +2,7 @@
 using MediatR;
 using RealEstateApp.Core.Application.Interfaces.Repositories;
 using RealEstateApp.Core.Domain.Entities;
+using Swashbuckle.AspNetCore.Annotations;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,10 +11,21 @@ using System.Threading.Tasks;
 
 namespace RealEstateApp.Core.Application.Features.Mejora.Commands.UpdateMejora
 {
+    /// <summary>
+    /// Parámetros para modificar mejoras
+    /// </summary>  
     public class UpdateMejoraCommand : IRequest<MejoraUpdateResponse>
     {
+        /// <example>1</example>
+        [SwaggerParameter(Description = "El id de la mejora")]
         public int Id { get; set; }
+
+        /// <example>Piscina</example>
+        [SwaggerParameter(Description = "El nombre de la mejora")]
         public string Nombre { get; set; }
+
+        /// <example>Una piscina muy grande en el patio</example>
+        [SwaggerParameter(Description = "La descripción de la mejora")]
         public string Descripcion { get; set; }
     }
     public class UpdateMejoraCommandHandler : IRequestHandler<UpdateMejoraCommand, MejoraUpdateResponse>

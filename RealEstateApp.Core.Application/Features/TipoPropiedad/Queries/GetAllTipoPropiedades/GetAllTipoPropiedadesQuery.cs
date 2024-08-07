@@ -10,6 +10,9 @@ using System.Threading.Tasks;
 
 namespace RealEstateApp.Core.Application.Features.TipoPropiedad.Queries.GetAllTipoPropiedades
 {
+    /// <summary>
+    /// Parámetros para el listado de tipos de propiedades
+    /// </summary>  
     public class GetAllTipoPropiedadesQuery : IRequest<IEnumerable<TipoPropiedadViewModel>>
     {
     }
