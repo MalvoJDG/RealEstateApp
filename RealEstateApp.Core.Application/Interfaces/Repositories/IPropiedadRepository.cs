@@ -12,5 +12,6 @@ namespace RealEstateApp.Core.Application.Interfaces.Repositories
     public interface IPropiedadRepository : IGenericRepository<Propiedad>
     {
         Task<int> CountByAgenteIdAsync(string agenteId);
+        Task<List<Propiedad>> GetAllWithFavoritesAsync();
     }
 }

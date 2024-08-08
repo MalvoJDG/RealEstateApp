@@ -24,6 +24,13 @@ namespace RealEstateApp.Infrastructure.Persistence.Repositories
             return await _dbContext.Propiedades.CountAsync(p => p.AgenteId == agenteId);
         }
 
+        public async Task<List<Propiedad>> GetAllWithFavoritesAsync()
+        {
+            return await _dbContext.Propiedades
+                .Include(p => p.Favorito)
+                .ToListAsync();
+        }
+
     }
 }
 

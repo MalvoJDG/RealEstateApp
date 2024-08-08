@@ -16,6 +16,7 @@ namespace RealEstateApp.Infrastructure.Persistence.Contexts
         public DbSet<TipoPropiedad> TiposPropiedad { get; set; }
         public DbSet<TipoVenta> TiposVenta { get; set; }
         public DbSet<Mejora> Mejoras { get; set; }
+        public DbSet<Favorito> Favorito { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -26,6 +27,7 @@ namespace RealEstateApp.Infrastructure.Persistence.Contexts
             modelBuilder.Entity<TipoPropiedad>().ToTable("TiposPropiedad");
             modelBuilder.Entity<TipoVenta>().ToTable("TiposVenta");
             modelBuilder.Entity<Mejora>().ToTable("Mejoras");
+            modelBuilder.Entity<Favorito>().ToTable("Favorito");
             #endregion
 
             #region Primary Keys
@@ -33,8 +35,16 @@ namespace RealEstateApp.Infrastructure.Persistence.Contexts
             modelBuilder.Entity<TipoPropiedad>().HasKey(tp => tp.Id);
             modelBuilder.Entity<TipoVenta>().HasKey(tv => tv.Id);
             modelBuilder.Entity<Mejora>().HasKey(m => m.Id);
+            modelBuilder.Entity<Favorito>().HasKey(f => f.Id);
             #endregion
 
+            #region relationship
+            modelBuilder.Entity<Propiedad>()
+               .HasMany(p => p.Favorito)
+               .WithOne()
+               .HasForeignKey(f => f.Propiedad_Id);
+
+            #endregion
             #region Property Configurations
 
             modelBuilder.Entity<Propiedad>()

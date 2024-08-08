@@ -1,7 +1,7 @@
 ﻿@model List<RealEstateApp.Core.Application.ViewModels.Propiedades.PropiedadViewModel>
 
 @{
-    ViewData["Title"] = "Home";
+    ViewData["Title"] = "Favoritos";
 }
 
 <!DOCTYPE html>
@@ -11,7 +11,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>@ViewData["Title"]</title>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet">
-    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" rel="stylesheet">
     <style>
         .exclusive-badge {
             position: absolute;
@@ -53,20 +52,6 @@
             .favorite-btn.favorited {
                 color: red;
             }
-
-        .card-custom a {
-            text-decoration: none;
-            color: inherit;
-        }
-
-            .card-custom a:hover {
-                text-decoration: none;
-                color: inherit;
-            }
-
-        .card-body h5, .card-body p {
-            color: black;
-        }
     </style>
 </head>
 <body>
@@ -79,22 +64,20 @@
                         <button class="favorite-btn @(property.EsFavorita ? "favorited" : "")" data-property-id="@property.Id">
                             <i class="fas fa-heart"></i>
                         </button>
-                        <a href="@Url.Action("Detalles", "HomeCliente", new { id = property.Id })">
-                            <img src="@property.ObtenerPrimeraImagen()" class="card-img-top" alt="Imagen de la propiedad">
-                            <div class="exclusive-badge">EXCLUSIVA</div>
-                            <div class="card-body">
-                                <h5>@property.Tipo</h5>
-                                <p class="card-text">@property.Descripcion</p>
-                                <p class="card-text"><strong>Código</strong><br>@property.Codigo</p>
-                                <p class="card-text">@property.TipoVenta</p>
-                                <span class="text-danger">US$ @property.Valor.ToString("N2")</span>
-                                <div class="property-details">
-                                    <span class="mr-2"><i class="fas fa-bed"></i> @property.CantidadHabitaciones</span>
-                                    <span class="mr-2"><i class="fas fa-bath"></i> @property.CantidadBaños</span>
-                                    <span><i class="fas fa-ruler-combined"></i> @property.Tamaño mt<sup>2</sup></span>
-                                </div>
+                        <img src="@property.ObtenerPrimeraImagen()" class="card-img-top" alt="Imagen de la propiedad">
+                        <div class="exclusive-badge">EXCLUSIVA</div>
+                        <div class="card-body">
+                            <h5>@property.Tipo</h5>
+                            <p class="card-text">@property.Descripcion</p>
+                            <p class="card-text"><strong>Código</strong><br>@property.Codigo</p>
+                            <p class="card-text">@property.TipoVenta</p>
+                            <span class="text-danger">US$ @property.Valor.ToString("N2")</span>
+                            <div class="property-details">
+                                <span class="mr-2"><i class="fas fa-bed"></i> @property.CantidadHabitaciones</span>
+                                <span class="mr-2"><i class="fas fa-bath"></i> @property.CantidadBaños</span>
+                                <span><i class="fas fa-ruler-combined"></i> @property.Tamaño mt<sup>2</sup></span>
                             </div>
-                        </a>
+                        </div>
                     </div>
                 </div>
             }
@@ -102,7 +85,6 @@
     </div>
 
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
     <script>
         $(document).ready(function () {
             $('.favorite-btn').click(function () {
