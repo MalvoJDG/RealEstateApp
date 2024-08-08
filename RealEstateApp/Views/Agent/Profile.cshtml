@@ -53,7 +53,10 @@
                 <p><strong>Email: </strong><br>@Model.Email</p>
 
             </div>
-            <a asp-controller="Agent" asp-action="EditView" asp-route-id="@Model.Id" class="btn btn-secondary btn-block">Editar Perfil</a>
+            <div class="card-footer">
+                <a class="btn btn-primary" asp-action="EditView" asp-controller="Agent" asp-route-id="@Model.Id"> Editar </a>
+               
+            </div>
         </div>
     </div>
 </div>

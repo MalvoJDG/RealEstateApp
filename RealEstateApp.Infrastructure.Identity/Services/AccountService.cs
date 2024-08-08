@@ -12,6 +12,8 @@ using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
 using System.Security.Cryptography;
+using RealEstateApp.Core.Application.ViewModels.Users;
+using System.Security.Policy;
 
 
 namespace RealEstateApp.Infraestructure.Identity.Services
@@ -529,6 +531,24 @@ namespace RealEstateApp.Infraestructure.Identity.Services
             }
 
             return userList;
+        }
+
+        public async Task UpdateUser (SaveUserViewModel model)
+        {
+            var user = await _userManager.FindByIdAsync(model.Id);
+
+            // Update it with the values from the view model
+
+            user!.UserName = model.Username;
+            user.FirstName = model.FirstName;
+            user.LastName = model.LastName;
+            user.Email = model.Email;
+            user.ProfilePictureUrl = model.ProfilePictureUrl;
+            user.PhoneNumber = model.Phone;
+
+
+            // Apply the changes if any to the db
+            await _userManager.UpdateAsync(user);
         }
     }
 }

@@ -1,4 +1,5 @@
 ﻿using RealEstateApp.Core.Application.Dtos.Account;
+using RealEstateApp.Core.Application.ViewModels.Users;
 
 namespace RealEstateApp.Core.Application.Interfaces.Services
 {
@@ -18,5 +19,6 @@ namespace RealEstateApp.Core.Application.Interfaces.Services
         Task SingoutAsyncs();
         Task<string> GetUserFullNameById(string userId);
         Task<List<AuthenticationResponse>> GetAllUsersAsync();
+        public Task UpdateUser(SaveUserViewModel model);
     }
 }

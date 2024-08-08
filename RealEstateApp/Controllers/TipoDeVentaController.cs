@@ -1,8 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using RealEstateApp.Core.Application.Interfaces.Services;
+using RealEstateApp.Core.Application.ViewModels.TipoPropiedades;
 using RealEstateApp.Core.Application.ViewModels.TipoVentas;
-
-// For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
 namespace RealEstateApp.Controllers
 {
@@ -37,7 +36,41 @@ namespace RealEstateApp.Controllers
 
             await _service.Add(svm);
 
-            return RedirectToRoute(new { controller = "Agent", action = "Index" });
+            return RedirectToRoute(new { controller = "TipoDeVenta", action = "Index" });
+        }
+
+        public async Task<IActionResult> EditView(int id)
+        {
+            var element = await _service.GetByIdSaveViewModel(id);
+            return View(element);
+        }
+
+
+        public async Task<IActionResult> Edit(SaveTipoVentaViewModel model)
+        {
+            if (!ModelState.IsValid)
+            {
+                return View("EditView", model);
+            }
+
+            await _service.Update(model, model.Id);
+
+            return RedirectToRoute(new { controller = "TipoDeVenta", action = "Index" });
+        }
+
+        public async Task<IActionResult> DeleteView(int id)
+        {
+
+            var element = await _service.GetByIdSaveViewModel(id);
+
+            return View(element);
+        }
+
+        public async Task<IActionResult> Delete(int id)
+        {
+            await _service.Delete(id);
+            return RedirectToRoute(new { controller = "TipoDeVenta", action = "Index" });
+
         }
     }
 }

@@ -53,6 +53,13 @@
                                     <a class="nav-link text-dark" asp-area="" asp-controller="HomeCliente" asp-action="Favoritos">Favoritos</a>
                                 </li>
                             }
+
+                           
+                        }
+
+
+                            @if (Usuario != null)
+
                             if (Usuario.Roles.Contains(Roles.AGENTE.ToString()))
                             {
                                 <li class="nav-item">
@@ -66,6 +73,7 @@
                                 </li>
                             }
                             if (Usuario.Roles.Contains(Roles.ADMIN.ToString()))
+
                             {
                                 <li class="nav-item">
                                     <a class="nav-link text-dark" asp-controller="Admin" asp-action="Home">Home</a>

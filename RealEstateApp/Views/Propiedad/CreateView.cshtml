@@ -17,7 +17,7 @@
                 </div>
                 <div class="card-body">
 
-                    <form method="post" asp-controller="Propiedad" asp-action="Create" enctype="multipart/form-data">
+                    <form method="post" class="form" asp-controller="Propiedad" asp-action="Create" enctype="multipart/form-data">
 
                         <div class="mb-3">
                             <label asp-for="Descripcion" class="form-label">Descripcion: </label>
@@ -74,13 +74,16 @@
 
                         <div class="mb-3">
                             <label asp-for="Mejoras" class="form-label">Mejora </label>
-                            <select asp-for="Mejoras" class="form-select">
-                                <option> Seleccione el Tipo de Propiedad </option>
+                            <div id="mejoras-container">
                                 @foreach (MejoraViewModel element in ViewBag.Mejoras)
                                 {
-                                    <option value="@element.Nombre"> @element.Nombre</option>
+                                    <input onchange="updateSelectedMejoras()" type="checkbox" name="mejoras-checkbox" value="@element.Nombre" id="@element.Nombre" />
+                                    <label for="@element.Nombre">@element.Nombre</label>
+
+                                    <br />
                                 }
-                            </select>
+                            </div>
+                            <input id="selectedMejoras" asp-for="Mejoras" name="selectedMejoras" />
                             @* <span asp-validation-for="Mejoras" class="text-danger"></span> *@
                         </div>
 
@@ -101,3 +104,23 @@
     </div>
 </div>
 
+<script>
+    function updateSelectedMejoras() {
+        // Selecciona todos los checkboxes dentro del contenedor de mejoras
+        console.log("haol  unaod")
+
+        var checkboxes = document.querySelectorAll('#mejoras-container input[type="checkbox"]');
+        var selectedMejoras = [];
+
+        // Itera sobre los checkboxes para ver cuáles están seleccionados
+        checkboxes.forEach(function (checkbox) {
+            if (checkbox.checked) {
+                selectedMejoras.push(checkbox.value);
+            }
+        });
+
+        // Convierte el array en una cadena separada por comas
+        document.getElementById('selectedMejoras').value = selectedMejoras.join(', ');
+      
+    }
+</script>
