@@ -1,8 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using RealEstateApp.Core.Application.Interfaces.Services;
 using RealEstateApp.Core.Application.ViewModels.Mejoras;
-using RealEstateApp.Core.Application.ViewModels.TipoPropiedades;
-using RealEstateApp.Core.Application.ViewModels.TipoVentas;
+
 
 namespace RealEstateApp.Controllers
 {

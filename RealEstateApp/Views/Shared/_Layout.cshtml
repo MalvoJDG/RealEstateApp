@@ -54,6 +54,19 @@
                                 </li>
                             }
 
+                            if(Usuario.Roles.Contains(Roles.AGENTE.ToString()))
+                            {
+                                <li class="nav-item">
+                                    <a class="nav-link text-dark" asp-controller="Agent" asp-action="Index">Home</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link text-dark" asp-controller="Propiedad" asp-action="Index">Propiedades</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link text-dark" asp-controller="Agent" asp-action="Profile">Perfil</a>
+                                </li>
+                            }
+
                             if (Usuario.Roles.Contains(Roles.ADMIN.ToString()))
 
                             {

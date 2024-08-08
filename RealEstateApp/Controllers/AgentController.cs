@@ -44,7 +44,9 @@ namespace RealEstateApp.Controllers
 
         public IActionResult Profile()
         {
-            return View(_user);
+            var agent = _user;
+            agent.Phone = userViewModel.Phone;
+            return View(agent);
         }
 
         public IActionResult EditView ()

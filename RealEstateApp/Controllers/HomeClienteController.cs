@@ -3,9 +3,11 @@ using RealEstateApp.Core.Application.Helpers;
 using RealEstateApp.Core.Application.Dtos.Account;
 using RealEstateApp.Core.Application.Interfaces.Services;
 using RealEstateApp.Core.Application.ViewModels.Propiedades;
+using Microsoft.AspNetCore.Authorization;
 
 namespace RealEstateApp.Controllers
 {
+    [Authorize(Roles = "CLIENTE")]
     public class HomeClienteController : Controller
     {
         private readonly IAgenteService22 _agenteService;
