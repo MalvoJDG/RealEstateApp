@@ -2,6 +2,7 @@
 using RealEstateApp.Core.Application.Helpers;
 using RealEstateApp.Core.Application.Dtos.Account;
 using RealEstateApp.Core.Application.Interfaces.Services;
+using RealEstateApp.Core.Application.ViewModels.Propiedades;
 
 namespace RealEstateApp.Controllers
 {
@@ -12,21 +13,42 @@ namespace RealEstateApp.Controllers
         private readonly AuthenticationResponse userViewModel;
         private readonly IHttpContextAccessor _httpContextAccessor;
         private readonly IFavoritoService _favoritoService;
+        private readonly ITipoPropiedadService _tipoPropiedadService;
 
-        public HomeClienteController(IAgenteService22 agenteService, IPropiedadService propiedadService, IHttpContextAccessor httpContextAccessor, IFavoritoService favoritoService)
+        public HomeClienteController(IAgenteService22 agenteService, IPropiedadService propiedadService, IHttpContextAccessor httpContextAccessor, IFavoritoService favoritoService, ITipoPropiedadService tipoPropiedadService)
         {
             _agenteService = agenteService;
             _propiedadService = propiedadService;
             _httpContextAccessor = httpContextAccessor;
             userViewModel = httpContextAccessor.HttpContext.Session.Get<AuthenticationResponse>("user");
             _favoritoService = favoritoService;
+            _tipoPropiedadService = tipoPropiedadService;
         }
 
-        public async Task<IActionResult> Index()
+
+        public async Task<IActionResult> Index(string tipo, decimal? precioMinimo, decimal? precioMaximo, int? cantidadHabitaciones, int? cantidadBaños, string Searchtearm)
         {
-            var propiedades = await _propiedadService.GetAllViewModel();
+            var filters = new FilterPropiedadViewModel
+            {
+                Tipo = tipo,
+                PrecioMinimo = precioMinimo,
+                PrecioMaximo = precioMaximo,
+                CantidadHabitaciones = cantidadHabitaciones,
+                CantidadBaños = cantidadBaños,
+                Searchtearm = Searchtearm 
+            };
+
+            ViewBag.Tipo = await _tipoPropiedadService.GetAllViewModel();
+            var propiedades = await _propiedadService.GetAllViewModelWithFilters(filters);
+
+            if (!string.IsNullOrWhiteSpace(filters.Searchtearm))
+            {
+                propiedades = propiedades.Where(s => s.Codigo.Contains(filters.Searchtearm, StringComparison.OrdinalIgnoreCase)).ToList();
+            }
+
             return View(propiedades);
         }
+
 
         public async Task<IActionResult> Favoritos()
         {
@@ -52,9 +74,9 @@ namespace RealEstateApp.Controllers
             return Ok();
         }
 
-        public async Task<IActionResult> Agentes()
+        public async Task<IActionResult> Agentes(string filterName)
         {
-            var agentes = await _agenteService.GetAllViewModelWithInclude();
+            var agentes = await _agenteService.GetAllViewModelWithInclude(filterName);
             return View(agentes);
         }
 
@@ -66,6 +88,12 @@ namespace RealEstateApp.Controllers
                 return NotFound();
             }
             return View(propiedad);
+        }
+
+        public async Task<IActionResult> PropiedadesPorAgente(string agenteId)
+        {
+            var propiedades = await _propiedadService.GetAllByAgente(agenteId);
+            return View(propiedades);
         }
 
     }
