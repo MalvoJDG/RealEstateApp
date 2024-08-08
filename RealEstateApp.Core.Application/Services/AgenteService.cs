@@ -25,13 +25,22 @@ namespace RealEstateApp.Core.Application.Services
             userViewModel = _httpContextAccessor.HttpContext.Session.Get<AuthenticationResponse>("user");
         }
 
-        public async Task<List<AgenteViewModel>> GetAllViewModelWithInclude()
+        public async Task<List<AgenteViewModel>> GetAllViewModelWithInclude(string filterName)
         {
-            var users = await _accountService.GetAllUsersAsync(); // Assuming this method returns all users
+            var users = await _accountService.GetAllUsersAsync();
             var agentes = users.Where(u => u.Roles.Contains("AGENTE")).ToList();
+
+            if (!string.IsNullOrEmpty(filterName))
+            {
+                agentes = agentes.Where(a => a.FirstName.Contains(filterName, StringComparison.OrdinalIgnoreCase)).ToList();
+            }
+
+            agentes = agentes.OrderBy(a => a.FirstName).ToList();
 
             var agentesViewModel = _mapper.Map<List<AgenteViewModel>>(agentes);
             return agentesViewModel;
         }
+
+
     }
 }

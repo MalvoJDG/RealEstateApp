@@ -2,9 +2,13 @@
 using RealEstateApp.Core.Application.Helpers;
 using RealEstateApp.Core.Application.ViewModels.Users;
 using RealEstateApp.Core.Application.Interfaces.Services;
+
 using RealEstateApp.Core.Application.ViewModels.TipoPropiedades;
 using RealEstateApp.Core.Application.Services;
 using RealEstateApp.Middelwares;
+
+using RealEstateApp.Core.Application.Dtos.Account;
+
 
 namespace RealEstateApp.Controllers
 {
@@ -13,23 +17,29 @@ namespace RealEstateApp.Controllers
 
         private readonly SaveUserViewModel _user;
         private readonly IHttpContextAccessor _contextAccessor;
-        private readonly IPropiedadService _pservice;
+
         private readonly ValidateUserSession _validateUserSession;
         private readonly IUserService _service;
+
+        private readonly IPropiedadService _service;
+        private readonly AuthenticationResponse userViewModel;
+
 
 
         public AgentController(IHttpContextAccessor httpContextAccessor, IPropiedadService propiedadService, ValidateUserSession _validateUserSession) {
 
             _user = httpContextAccessor.HttpContext.Session.Get<SaveUserViewModel>("user");
+
             _pservice = propiedadService;
             this._validateUserSession = _validateUserSession;
             }
 
+
         public async Task<IActionResult> Index()
         {
-            ViewBag.Propiedades = await _pservice.GetAllViewModel();
+            var propiedades = await _service.GetAllByAgente(userViewModel.Id);
+            return View(propiedades);
 
-            return View();
         }
 
         public IActionResult Profile()

@@ -486,7 +486,9 @@ namespace RealEstateApp.Infraestructure.Identity.Services
                 FirstName = user.FirstName,
                 LastName = user.LastName,
                 ProfilePictureUrl = user.ProfilePictureUrl,
-                UserName = user.UserName
+                UserName = user.UserName,
+                Phone = user.PhoneNumber,
+                Email = user.Email
             };
         }
 
@@ -523,6 +525,7 @@ namespace RealEstateApp.Infraestructure.Identity.Services
                     FirstName = user.FirstName,
                     LastName = user.LastName,
                     Roles = roles.ToList(),
+                    Phone = user.PhoneNumber,
                     ProfilePictureUrl = user.ProfilePictureUrl
                 });
             }

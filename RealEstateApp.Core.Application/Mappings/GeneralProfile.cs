@@ -31,6 +31,9 @@ namespace RealEstateApp.Core.Application.Mappings
         {
 
             CreateMap<Propiedad, PropiedadViewModel>()
+            .ForMember(x => x.Correo, opt => opt.Ignore())
+            .ForMember(x => x.Telefono, opt => opt.Ignore())
+            .ForMember(x => x.Foto, opt => opt.Ignore())
             .ReverseMap();
 
             CreateMap<Propiedad, SavePropiedadViewModel>()
@@ -92,8 +95,29 @@ namespace RealEstateApp.Core.Application.Mappings
 
             CreateMap<AuthenticationResponse, AgenteViewModel>()
                 .ForMember(dest => dest.Foto, opt => opt.MapFrom(src => src.ProfilePictureUrl))
-                .ForMember(dest => dest.PhoneNumber, opt => opt.Ignore()) 
+                .ForMember(dest => dest.PhoneNumber, opt => opt.MapFrom(src => src.Phone))
+                .ForMember(dest => dest.Email, opt => opt.MapFrom(src => src.Email))
                 .ForMember(dest => dest.CantidadPropiedades, opt => opt.Ignore());
+
+            CreateMap<AuthenticationResponse, PropiedadViewModel>()
+                .ForMember(dest => dest.AgenteNombreCompleto, opt => opt.MapFrom(src => $"{src.FirstName} {src.LastName}"))
+                .ForMember(dest => dest.Telefono, opt => opt.MapFrom(src => src.Phone))
+                .ForMember(dest => dest.Correo, opt => opt.MapFrom(src => src.Email))
+                .ForMember(dest => dest.Foto, opt => opt.MapFrom(src => src.ProfilePictureUrl))
+                .ForMember(dest => dest.AgenteId, opt => opt.MapFrom(src => src.Id))
+                .ForMember(dest => dest.Id, opt => opt.Ignore()) // Ignora la propiedad Id
+                .ForMember(dest => dest.Tipo, opt => opt.Ignore())
+                .ForMember(dest => dest.Codigo, opt => opt.Ignore())
+                .ForMember(dest => dest.TipoVenta, opt => opt.Ignore())
+                .ForMember(dest => dest.Valor, opt => opt.Ignore())
+                .ForMember(dest => dest.CantidadHabitaciones, opt => opt.Ignore())
+                .ForMember(dest => dest.CantidadBaños, opt => opt.Ignore())
+                .ForMember(dest => dest.Tamaño, opt => opt.Ignore())
+                .ForMember(dest => dest.Descripcion, opt => opt.Ignore())
+                .ForMember(dest => dest.Mejoras, opt => opt.Ignore())
+                .ForMember(dest => dest.Imagenes, opt => opt.Ignore())
+                .ForMember(dest => dest.EsFavorita, opt => opt.Ignore());
+
             #endregion
 
             #region Register Request

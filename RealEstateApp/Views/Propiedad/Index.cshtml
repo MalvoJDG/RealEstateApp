@@ -5,6 +5,14 @@
 }
 
 
+=======
+<ul class="list-group">
+    <li class="list-group-item"> <a asp-controller="Propiedad" asp-action="CreateView" class="btn btn-primary">Crear Propiedad</a> </li>
+</ul>
+
+@foreach (PropiedadViewModel element in ViewBag.Propiedades)
+{
+
 
 <!DOCTYPE html>
 <html lang="en">
@@ -26,6 +34,7 @@
             border-radius: 3px;
         }
 
+
         .card-custom {
             position: relative;
             margin-bottom: 20px;
@@ -38,6 +47,29 @@
         .card-img-top {
             height: 200px;
             object-fit: cover;
+
+    <div style="display: flex; gap: 20px">
+        @foreach (var property in Model)
+        {
+            <div class="col-md-3">
+                <div class="card card-custom">
+                    <img src="@property.ObtenerPrimeraImagen()" class="card-img-top" alt="Imagen de la propiedad">
+                    <div class="exclusive-badge">EXCLUSIVA</div>
+                    <div class="card-body">
+                        <h5>@property.Tipo</h5>
+                        <p class="card-text">@property.Descripcion</p>
+                        <p class="card-text"><strong>Código</strong><br>@property.Codigo</p>
+                        <p class="card-text">@property.TipoVenta</p>
+                        <span class="text-danger">US$ @property.Valor.ToString("N2")</span>
+                        <div class="property-details">
+                            <span class="mr-2"><i class="fas fa-bed"></i> @property.CantidadHabitaciones</span>
+                            <span class="mr-2"><i class="fas fa-bath"></i> @property.CantidadBaños</span>
+                            <span><i class="fas fa-ruler-combined"></i> @property.Tamaño mt<sup>2</sup></span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
         }
     </style>
 </head>
@@ -81,6 +113,10 @@
             }
         </div>
     </div>
+
 </body>
 </html>
+
+
+
 

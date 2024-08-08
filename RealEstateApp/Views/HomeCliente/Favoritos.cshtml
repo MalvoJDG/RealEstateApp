@@ -1,14 +1,8 @@
-@model List<RealEstateApp.Core.Application.ViewModels.Propiedades.PropiedadViewModel>
+﻿@model List<RealEstateApp.Core.Application.ViewModels.Propiedades.PropiedadViewModel>
 
 @{
-    ViewData["Title"] = "Propiedades de Agente";
+    ViewData["Title"] = "Favoritos";
 }
-
-
-<div class="text-center">
-    <h1 class="display-4">Bienvenido</h1>
-
-</div>
 
 <!DOCTYPE html>
 <html lang="en">
@@ -35,7 +29,6 @@
             margin-bottom: 20px;
         }
 
-
         .property-details {
             margin-top: 10px;
         }
@@ -44,51 +37,72 @@
             height: 200px;
             object-fit: cover;
         }
+
+        .favorite-btn {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background: transparent;
+            border: none;
+            cursor: pointer;
+            font-size: 24px;
+            color: gray;
+        }
+
+            .favorite-btn.favorited {
+                color: red;
+            }
     </style>
 </head>
 <body>
     <div class="container">
         <div class="row">
-
-            @foreach (var property in ViewBag.Propiedades)
-
             @foreach (var property in Model)
-
             {
                 <div class="col-md-3">
                     <div class="card card-custom">
+                        <button class="favorite-btn @(property.EsFavorita ? "favorited" : "")" data-property-id="@property.Id">
+                            <i class="fas fa-heart"></i>
+                        </button>
                         <img src="@property.ObtenerPrimeraImagen()" class="card-img-top" alt="Imagen de la propiedad">
-
-                  
-
                         <div class="exclusive-badge">EXCLUSIVA</div>
-
                         <div class="card-body">
                             <h5>@property.Tipo</h5>
                             <p class="card-text">@property.Descripcion</p>
                             <p class="card-text"><strong>Código</strong><br>@property.Codigo</p>
-
-                            <p class="card-text">
                             <p class="card-text">@property.TipoVenta</p>
                             <span class="text-danger">US$ @property.Valor.ToString("N2")</span>
-                            </p>
-
-                            <p class="card-text">@property.TipoVenta</p>
-                            <span class="text-danger">US$ @property.Valor.ToString("N2")</span>
-
                             <div class="property-details">
                                 <span class="mr-2"><i class="fas fa-bed"></i> @property.CantidadHabitaciones</span>
                                 <span class="mr-2"><i class="fas fa-bath"></i> @property.CantidadBaños</span>
                                 <span><i class="fas fa-ruler-combined"></i> @property.Tamaño mt<sup>2</sup></span>
                             </div>
                         </div>
-
-
                     </div>
                 </div>
             }
         </div>
     </div>
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+        $(document).ready(function () {
+            $('.favorite-btn').click(function () {
+                var $btn = $(this);
+                var propertyId = $btn.data('property-id');
+                $.ajax({
+                    url: '@Url.Action("ToggleFavorite", "HomeCliente")',
+                    type: 'POST',
+                    data: { propiedadId: propertyId },
+                    success: function (response) {
+                        $btn.toggleClass('favorited');
+                    },
+                    error: function () {
+                        alert('Error al cambiar el estado de favorito');
+                    }
+                });
+            });
+        });
+    </script>
 </body>
 </html>
-

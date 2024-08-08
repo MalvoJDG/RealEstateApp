@@ -20,5 +20,7 @@ namespace RealEstateApp.Core.Domain.Entities
         public string? Mejoras { get; set; } 
         public string Imagenes { get; set; }
         public string AgenteId { get; set; }
+
+        public ICollection<Favorito> Favorito { get; set; }
     }
 }

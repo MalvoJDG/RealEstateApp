@@ -7,5 +7,9 @@ namespace RealEstateApp.Core.Application.Interfaces.Services
     {
         Task<int> GetPropiedadesCountByAgenteId(string agenteId);
         Task<IEnumerable<PropiedadDto>> GetPropiedadesByAgenteId(string agenteId);
+        Task<List<PropiedadViewModel>> GetAllFavoriteProperties(string userId);
+        Task<PropiedadViewModel> GetByIdViewModel(int id);
+        Task<List<PropiedadViewModel>> GetAllViewModelWithFilters(FilterPropiedadViewModel filters);
+        Task<List<PropiedadViewModel>> GetAllByAgente(string agenteId);
     }
 }
