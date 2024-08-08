@@ -4,9 +4,7 @@ using RealEstateApp.Core.Application.Dtos.Account;
 using RealEstateApp.Core.Application.Interfaces.Services;
 using RealEstateApp.Core.Application.ViewModels.Agentes;
 using RealEstateApp.Infraestructure.Identity.Entities;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+
 
 namespace RealEstateApp.Core.Application.Services
 {

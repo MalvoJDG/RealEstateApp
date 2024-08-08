@@ -4,12 +4,15 @@ using RealEstateApp.Core.Application.Interfaces.Services;
 using RealEstateApp.Core.Application.ViewModels.Users;
 
 
+
 namespace RealEstateApp.Core.Application.Services
 {
     public class UserService : IUserService
     {
         private readonly IAccountService _accountService;
         private readonly IMapper _mapper;
+        private readonly SaveUserViewModel _user;
+
 
         public UserService(IMapper mapper, IAccountService accountService)
         {
@@ -19,6 +22,7 @@ namespace RealEstateApp.Core.Application.Services
 
         public async Task<AuthenticationResponse> LoginAsyncs(LoginViewModel vm)
         {
+
             AuthenticationRequest Loginrequest = _mapper.Map<AuthenticationRequest>(vm);
             AuthenticationResponse userResponse = await _accountService.AutheticationAsync(Loginrequest);
 
@@ -68,6 +72,12 @@ namespace RealEstateApp.Core.Application.Services
         {
             return await _accountService.GetUserFullNameById(userId);
         }
+
+        public async Task UpdateUser (SaveUserViewModel model)
+        {
+           await  _accountService.UpdateUser(model);
+        }
+
 
     }
 }

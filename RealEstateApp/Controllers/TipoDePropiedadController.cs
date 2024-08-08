@@ -15,9 +15,9 @@ namespace RealEstateApp.Controllers
       
         public async Task<IActionResult> Index()
         { 
-            ViewBag.Tipos = await _service.GetAllViewModel();
+           var elements = await _service.GetAllViewModel();
 
-            return View();
+            return View(elements);
         }
 
         public IActionResult CreateView()
@@ -34,7 +34,40 @@ namespace RealEstateApp.Controllers
 
             await _service.Add(svm);
 
-            return RedirectToRoute(new { controller = "Agent", action = "Index" });
+            return RedirectToRoute(new { controller = "Propiedad", action = "Index" });
+        }
+
+        public async Task<IActionResult> EditView(int id)
+        {
+            var element = await _service.GetByIdSaveViewModel(id);
+            return View(element);
+        }
+
+
+        public async Task<IActionResult>  Edit (SaveTipoPropiedadViewModel model)
+        {
+            if (!ModelState.IsValid)
+            {
+                return View("EditView", model);
+            }
+
+            await _service.Update(model,model.Id);
+
+            return RedirectToRoute(new { controller = "TipoDePropiedad", action = "Index" });
+        }
+
+        public async Task<IActionResult> DeleteView(int id) {
+
+            var element = await _service.GetByIdSaveViewModel(id);
+
+            return View(element);
+        }
+
+        public async Task<IActionResult> Delete(int id)
+        {
+            await _service.Delete(id);
+            return RedirectToRoute(new { controller = "TipoDePropiedad", action = "Index" });
+
         }
     }
 }

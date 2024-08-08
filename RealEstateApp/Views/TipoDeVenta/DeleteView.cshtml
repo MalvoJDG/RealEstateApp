@@ -1,0 +1,33 @@
+﻿@using RealEstateApp.Core.Application.ViewModels.TipoVentas;
+@model SaveTipoVentaViewModel
+@{
+    ViewData["Title"] = "Eliminar tipo de venta";
+}
+
+<div class="container-fluid">
+
+    <div class="row">
+        <div class="col-6 offset-3">
+            <div class="card">
+                <div class="card-header bg-dark text-light">
+                    <h4>Eliminar tipo de venta</h4>
+                </div>
+                <div class="card-body">
+
+                    <form method="post" asp-controller="TipoDePropiedad" asp-action="Delete" enctype="multipart/form-data">
+
+                        <p>Esta seguro de que desea borrar el Tipo de Venta @Model.Nombre?</p>
+                        <input type="hidden" name="Id" asp-for="Id" />
+
+                      
+                        <button type="submit" class="btn btn-danger">Eliminar</button>
+                        <a asp-controller="TipoDePropiedad" asp-action="Index" class="btn btn-warning">Cancelar</a>
+
+                    </form>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
