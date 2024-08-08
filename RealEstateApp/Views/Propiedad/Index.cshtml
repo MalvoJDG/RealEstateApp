@@ -10,113 +10,40 @@
     <li class="list-group-item"> <a asp-controller="Propiedad" asp-action="CreateView" class="btn btn-primary">Crear Propiedad</a> </li>
 </ul>
 
-@foreach (PropiedadViewModel element in ViewBag.Propiedades)
-{
+<div class="row">
+    @foreach (var property in Model)
+    {
+        <div class="col-md-3">
+            <div class="card card-custom">
+                <img src="@property.ObtenerPrimeraImagen()" class="card-img-top" alt="Imagen de la propiedad">
 
 
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>@ViewData["Title"]</title>
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet">
-    <style>
-        .exclusive-badge {
-            position: absolute;
-            top: 10px;
-            left: 10px;
-            background-color: #007bff;
-            color: white;
-            padding: 5px 10px;
-            font-size: 14px;
-            font-weight: bold;
-            border-radius: 3px;
-        }
 
+                <div class="exclusive-badge">EXCLUSIVA</div>
 
-        .card-custom {
-            position: relative;
-            margin-bottom: 20px;
-        }
+                <div class="card-body">
+                    <h5>@property.Tipo</h5>
+                    <p class="card-text">@property.Descripcion</p>
+                    <p class="card-text"><strong>Código</strong><br>@property.Codigo</p>
 
-        .property-details {
-            margin-top: 10px;
-        }
+                    <p class="card-text">
+                    <p class="card-text">@property.TipoVenta</p>
+                    <span class="text-danger">US$ @property.Valor.ToString("N2")</span>
+                    </p>
 
-        .card-img-top {
-            height: 200px;
-            object-fit: cover;
+                    <p class="card-text">@property.TipoVenta</p>
+                    <span class="text-danger">US$ @property.Valor.ToString("N2")</span>
 
-    <div style="display: flex; gap: 20px">
-        @foreach (var property in Model)
-        {
-            <div class="col-md-3">
-                <div class="card card-custom">
-                    <img src="@property.ObtenerPrimeraImagen()" class="card-img-top" alt="Imagen de la propiedad">
-                    <div class="exclusive-badge">EXCLUSIVA</div>
-                    <div class="card-body">
-                        <h5>@property.Tipo</h5>
-                        <p class="card-text">@property.Descripcion</p>
-                        <p class="card-text"><strong>Código</strong><br>@property.Codigo</p>
-                        <p class="card-text">@property.TipoVenta</p>
-                        <span class="text-danger">US$ @property.Valor.ToString("N2")</span>
-                        <div class="property-details">
-                            <span class="mr-2"><i class="fas fa-bed"></i> @property.CantidadHabitaciones</span>
-                            <span class="mr-2"><i class="fas fa-bath"></i> @property.CantidadBaños</span>
-                            <span><i class="fas fa-ruler-combined"></i> @property.Tamaño mt<sup>2</sup></span>
-                        </div>
+                    <div class="property-details">
+                        <span class="mr-2"><i class="fas fa-bed"></i> @property.CantidadHabitaciones</span>
+                        <span class="mr-2"><i class="fas fa-bath"></i> @property.CantidadBaños</span>
+                        <span><i class="fas fa-ruler-combined"></i> @property.Tamaño mt<sup>2</sup></span>
                     </div>
                 </div>
+
+
             </div>
-
-        }
-    </style>
-</head>
-<body>
-    <div class="container">
-
-      <div style="display : flex; gap: 20px"> 
-            <a asp-controller="Propiedad" asp-action="CreateView" class="btn btn-success">Crear nueva Propiedad </a>
-            <a asp-controller="TipoDePropiedad" asp-action="Index" class="btn btn-primary">Tipos de Propiedades </a>
-            <a asp-controller="Mejora" asp-action="Index" class="btn btn-primary">Mejoras </a>
-            <a asp-controller="TipoDeVenta" asp-action="Index" class="btn btn-primary">Tipos de Ventas </a>
-      </div>
-  
-        <div class="row" style="margin-top : 40px">
-            @foreach (PropiedadViewModel property in ViewBag.Propiedades)
-            {
-                <div class="col-md-3">
-                    <div class="card card-custom">
-                        <img src="@property.ObtenerPrimeraImagen()" class="card-img-top"  alt="Imagen de la propiedad">
-                   
-                        <div class="card-body">
-                            <h5>@property.Tipo</h5>
-                            <p class="card-text">@property.Descripcion</p>
-                            <p class="card-text"><strong>Código</strong><br>@property.Codigo</p>
-                            <p class="card-text">
-                            <p class="card-text">@property.TipoVenta</p>
-                            <span class="text-danger">US$ @property.Valor.ToString("N2")</span>
-                            </p>
-                            <div class="property-details">
-                                <span class="mr-2"><i class="fas fa-bed"></i> @property.CantidadHabitaciones</span>
-                                <span class="mr-2"><i class="fas fa-bath"></i> @property.CantidadBaños</span>
-                                <span><i class="fas fa-ruler-combined"></i> @property.Tamaño mt<sup>2</sup></span>
-                            </div>
-                        </div>
-                        <div class="card-footer">
-                            <a class="btn btn-primary" asp-action="EditView" asp-controller="Propiedad" asp-route-id="@property.Id"> Editar </a>
-                            <a class="btn btn-danger"> Eliminar </a>
-                        </div>
-                    </div>
-                </div>
-            }
         </div>
-    </div>
-
-</body>
-</html>
-
-
-
+    }
+</div>
 
