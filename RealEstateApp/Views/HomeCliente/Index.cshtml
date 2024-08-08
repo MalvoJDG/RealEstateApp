@@ -1,4 +1,6 @@
-﻿@model List<RealEstateApp.Core.Application.ViewModels.Propiedades.PropiedadViewModel>
+﻿@using RealEstateApp.Core.Application.ViewModels;
+@using RealEstateApp.Core.Application.ViewModels.TipoPropiedades;
+@model List<RealEstateApp.Core.Application.ViewModels.Propiedades.PropiedadViewModel>
 
 @{
     ViewData["Title"] = "Home";
@@ -74,9 +76,52 @@
         <div class="row">
             <div class="mt-2 mb-4">
                 <form asp-controller="HomeCliente" asp-action="Index" method="get" class="d-flex">
-                    <input name="SearchTerm" class="form-control me-2 w-auto" style="max-width: 300px;" placeholder="Buscar por codigo" type="text" value="@ViewBag.SearchTerm" />
+                    <input name="Searchtearm" class="form-control me-2 w-auto" style="max-width: 300px;" placeholder="Buscar por codigo" type="text" value="@ViewBag.Searchtearm" />
                     <button type="submit" class="btn btn-primary">Go</button>
                 </form>
+            </div>
+
+            <div class="col-3">
+                <div class="card shadow-sm">
+                    <div class="card-header bg-dark text-light">
+                        <h4>Filtros</h4>
+                    </div>
+                    <div class="card-body">
+                        <form method="get" asp-controller="HomeCliente" asp-action="Index">
+                            @foreach (TipoPropiedadViewModel tipo in ViewBag.Tipo)
+                            {
+                                <div class="mb-3">
+                                    <div class="form-check">
+                                        <input class="form-check-input" value="@tipo.Nombre" type="radio" name="Tipo" id="tipo-@tipo.Id" />
+                                        <label class="form-check-label" for="tipo-@tipo.Id">@tipo.Nombre</label>
+                                    </div>
+                                </div>
+                            }
+
+                            <div class="mb-3">
+                                <label for="precioMinimo" class="form-label">Precio Min</label>
+                                <input type="number" class="form-control" name="precioMinimo" id="precioMinimo" value="@ViewContext.HttpContext.Request.Query["precioMinimo"]" />
+                            </div>
+
+                            <div class="mb-3">
+                                <label for="precioMaximo" class="form-label">Precio Max</label>
+                                <input type="number" class="form-control" name="precioMaximo" id="precioMaximo" value="@ViewContext.HttpContext.Request.Query["precioMaximo"]" />
+                            </div>
+
+                            <div class="mb-3">
+                                <label for="cantidadHabitaciones" class="form-label">Habitaciones</label>
+                                <input type="number" class="form-control" name="cantidadHabitaciones" id="cantidadHabitaciones" value="@ViewContext.HttpContext.Request.Query["cantidadHabitaciones"]" />
+                            </div>
+
+                            <div class="mb-3">
+                                <label for="cantidadBaños" class="form-label">Baños</label>
+                                <input type="number" class="form-control" name="cantidadBaños" id="cantidadBaños" value="@ViewContext.HttpContext.Request.Query["cantidadBaños"]" />
+                            </div>
+
+                            <button type="submit" class="btn btn-primary mt-2">Filtrar</button>
+                        </form>
+                    </div>
+                </div>
             </div>
 
             @foreach (var property in Model)
