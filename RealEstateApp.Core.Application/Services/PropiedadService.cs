@@ -62,20 +62,51 @@ namespace RealEstateApp.Core.Application.Services
               .Select(s => s[random.Next(s.Length)]).ToArray());
         }
 
-        public override async Task<List<PropiedadViewModel>> GetAllViewModel()
+        public async Task<List<PropiedadViewModel>> GetAllViewModelWithFilters(FilterPropiedadViewModel filters)
         {
+            // Obtener la lista de propiedades con las inclusiones necesarias
             var propiedades = await _propiedadRepository.GetAllWithFavoritesAsync();
             var userId = userViewModel.Id;
 
-            var result = propiedades.Select(propiedad =>
+            var listViewModels = propiedades.Select(propiedad =>
             {
                 var viewModel = _mapper.Map<PropiedadViewModel>(propiedad);
-                viewModel.EsFavorita = propiedad.Favorito.Any(f => f.User_Id == userId);
+                if (userId != null)
+                {
+                    viewModel.EsFavorita = propiedad.Favorito.Any(f => f.User_Id == userId);
+                }
                 return viewModel;
             }).ToList();
 
-            return result;
+            // Aplicar los filtros si existen
+            if (!string.IsNullOrEmpty(filters.Tipo))
+            {
+                listViewModels = listViewModels.Where(propiedad => propiedad.Tipo.Equals(filters.Tipo, StringComparison.OrdinalIgnoreCase)).ToList();
+            }
+
+            if (filters.PrecioMinimo.HasValue)
+            {
+                listViewModels = listViewModels.Where(propiedad => propiedad.Valor >= filters.PrecioMinimo.Value).ToList();
+            }
+
+            if (filters.PrecioMaximo.HasValue)
+            {
+                listViewModels = listViewModels.Where(propiedad => propiedad.Valor <= filters.PrecioMaximo.Value).ToList();
+            }
+
+            if (filters.CantidadHabitaciones.HasValue)
+            {
+                listViewModels = listViewModels.Where(propiedad => propiedad.CantidadHabitaciones == filters.CantidadHabitaciones.Value).ToList();
+            }
+
+            if (filters.CantidadBaños.HasValue)
+            {
+                listViewModels = listViewModels.Where(propiedad => propiedad.CantidadBaños == filters.CantidadBaños.Value).ToList();
+            }
+
+            return listViewModels;
         }
+
 
         public async Task<List<PropiedadViewModel>> GetAllFavoriteProperties(string userId)
         {

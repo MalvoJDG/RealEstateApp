@@ -2,6 +2,7 @@
 using MediatR;
 using RealEstateApp.Core.Application.Interfaces.Repositories;
 using RealEstateApp.Core.Application.ViewModels.TipoPropiedades;
+using Swashbuckle.AspNetCore.Annotations;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,8 +11,13 @@ using System.Threading.Tasks;
 
 namespace RealEstateApp.Core.Application.Features.TipoPropiedad.Queries.GetTipoPropiedadById
 {
+    /// <summary>
+    /// Parámetros para buscar un tipo de propiedad por id
+    /// </summary>  
     public class GetTipoPropiedadByIdQuery : IRequest<TipoPropiedadViewModel>
     {
+        /// <example>1</example>
+        [SwaggerParameter(Description = "El id del tipo de propiedad")]
         public int Id { get; set; }
     }
     public class GetTipoPropiedadByIdQueryHandler : IRequestHandler<GetTipoPropiedadByIdQuery, TipoPropiedadViewModel>

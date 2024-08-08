@@ -7,6 +7,9 @@ using System.Threading.Tasks;
 
 namespace RealEstateApp.Core.Application.Features.Agente.Queries.GetAllAgentes
 {
+    /// <summary>
+    /// Parámetros para el listado de agentes
+    /// </summary>  
     public class GetAllAgentesQuery : IRequest<IEnumerable<AgenteViewModel>>
     {
     }

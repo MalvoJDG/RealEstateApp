@@ -1,34 +1,33 @@
 ﻿@using RealEstateApp.Core.Application.ViewModels.Propiedades;
 
 @{
-    ViewData["Title"] = "Propiedades";
+
 }
 
-<div class="text-center">
-    <h1 class="display-4">Propiedades</h1>
-    <p>Controlador de propiedades
-</div>
 
-<a class="btn btn-success" asp-action="CreateView" asp-controller="Propiedad"> Crear Tipo de Venta </a>
+<ul class="list-group">
+    <li class="list-group-item"> <a asp-controller="Propiedad" asp-action="CreateView" class="btn btn-primary">Tipos de Propiedades </a> </li>
+    <li class="list-group-item"> <a asp-controller="TipoDePropiedad" asp-action="Index" class="btn btn-primary">Tipos de Propiedades </a> </li>
+    <li class="list-group-item"> <a asp-controller="Mejora" asp-action="Index" class="btn btn-primary">Mejoras </a> </li>
+    <li class="list-group-item"> <a asp-controller="TipoDeVenta" asp-action="Index" class="btn btn-primary">Tipos de Ventas </a> </li>
+</ul>
+
+@foreach (PropiedadViewModel element in ViewBag.Propiedades)
+{
 
 
-@foreach(PropiedadViewModel element in ViewBag.Propiedades)
-    {
-       
-    
-            <div style="display: flex; gap: 20px" >
-            @if (!string.IsNullOrEmpty(element.Imagenes))
-            {
-                var imagePaths = element.Imagenes.Split(";");
-                foreach (var imagePath in imagePaths)
-                {
-                    <div>
-                        <img src="@imagePath" style="  width : 200px; height: 200px; object-fit: contain " alt="Imagen de la propiedad" />
-                    </div>
-                }
-            }
+    <div style="display: flex; gap: 20px">
+        @if (!string.IsNullOrEmpty(element.Imagenes))
+        {
+            var imagePath = element.Imagenes.Split(";")[0];
+
+            <div>
+                <img src="@imagePath" style="  width : 200px; height: 200px; object-fit: contain " alt="Imagen de la propiedad" />
             </div>
-            <p> @element.Descripcion </p>
-            <p> Valor: @element.Valor </p>
-        
-    }
+
+        }
+    </div>
+    <p> @element.Descripcion </p>
+    <p> Valor: @element.Valor </p>
+
+}

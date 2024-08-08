@@ -2,6 +2,7 @@
 using MediatR;
 using RealEstateApp.Core.Application.Interfaces.Repositories;
 using RealEstateApp.Core.Domain.Entities;
+using Swashbuckle.AspNetCore.Annotations;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,10 +11,21 @@ using System.Threading.Tasks;
 
 namespace RealEstateApp.Core.Application.Features.TipoVenta.Commands.UpdateTipoVenta
 {
+    /// <summary>
+    /// Parámetros para modificar un tipo de venta
+    /// </summary>  
     public class UpdateTipoVentaCommand : IRequest<TipoVentaUpdateResponse>
     {
+        /// <example>1</example>
+        [SwaggerParameter(Description = "El id del tipo de venta")]
         public int Id { get; set; }
+
+        /// <example>Alquilada</example>
+        [SwaggerParameter(Description = "El nombre del tipo de venta")]
         public string Nombre { get; set; }
+
+        /// <example>No permitido mascotas</example>
+        [SwaggerParameter(Description = "La descripcion del tipo de venta")]
         public string Descripcion { get; set; }
     }
     public class UpdateTipoVentaCommandHandler : IRequestHandler<UpdateTipoVentaCommand, TipoVentaUpdateResponse>

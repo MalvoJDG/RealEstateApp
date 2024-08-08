@@ -3,11 +3,20 @@ using RealEstateApp.Infrastructure.Persistence;
 using RealEstateApp.Infraestructure.Shared;
 using RealEstateApp.Infraestructure.Persistence;
 using RealEstateApp.WebApi.Extensions;
+using Microsoft.AspNetCore.Mvc;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
-builder.Services.AddControllers();
+builder.Services.AddControllers(options =>
+{
+    options.Filters.Add(new ProducesAttribute("application/json"));
+}).ConfigureApiBehaviorOptions(options =>
+{
+    options.SuppressInferBindingSourcesForParameters = true;
+    options.SuppressMapClientErrors = true;
+});
+
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddPersistenceInfrastructure(builder.Configuration);
 builder.Services.AddIdentityInfrastructure(builder.Configuration);

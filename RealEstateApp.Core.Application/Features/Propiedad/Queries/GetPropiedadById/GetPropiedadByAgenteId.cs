@@ -1,6 +1,7 @@
 ﻿using MediatR;
 using RealEstateApp.Core.Application.Interfaces.Services;
 using RealEstateApp.Core.Application.ViewModels.Propiedades;
+using Swashbuckle.AspNetCore.Annotations;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,8 +10,13 @@ using System.Threading.Tasks;
 
 namespace RealEstateApp.Core.Application.Features.Propiedad.Queries.GetPropiedadById
 {
+    /// <summary>
+    /// Parámetros para filtrar las propiedades por id del agente
+    /// </summary>  
     public class GetPropiedadesByAgenteIdQuery : IRequest<IEnumerable<PropiedadDto>>
     {
+        /// <example>f136c302-bf1d-44a1-8555-7d8ae497cce2</example>
+        [SwaggerParameter(Description = "Colocar el AgenteId por la cual quiere filtrar las propiedades")]
         public string AgenteId { get; set; }
     }
 
