@@ -1,5 +1,5 @@
 ﻿@using RealEstateApp.Core.Application.ViewModels.TipoPropiedades;
-
+@model List<TipoPropiedadViewModel>
 
 @{
     ViewData["Title"] = "Tipos de Propiedades";
@@ -8,16 +8,25 @@
 <div class="text-center">
     <h1 class="display-4">Tipos de Propiedades</h1>
     <p>Controlador de Tipo de propiedades</div>
+<a class="btn btn-warning" asp-action="Index" asp-controller="Propiedad"> Volver </a>
 
     <a class="btn btn-success" asp-action="CreateView" asp-controller="TipoDePropiedad"> Crear Tipo de Propiedad </a>
 
-  
-@foreach (TipoPropiedadViewModel element in ViewBag.Tipos)
-{
 
-
-
-    <p>Nombre:  @element.Nombre </p>
-    <p>Descripcion:  @element.Descripcion </p>
-
-}
+<div class="container mt-5">
+    <div class="row">
+        @foreach (TipoPropiedadViewModel element in Model)
+        {
+            <div class="col-md-4">
+                <div class="card mb-3">
+                    <div class="card-body">
+                        <h5 class="card-title">@element.Nombre</h5>
+                        <p class="card-text"> @element.Descripcion</p>
+                        <a asp-action="EditView" asp-controller="TipoDePropiedad" asp-route-id="@element.Id" class="btn btn-primary">Editar</a>
+                        <a asp-action="DeleteView" asp-controller="TipoDePropiedad" asp-route-id="@element.Id" class="btn btn-danger">Eliminar</a>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+</div>

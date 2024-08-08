@@ -17,7 +17,7 @@ namespace RealEstateApp.Core.Application.ViewModels.Propiedades
         public int CantidadBaños { get; set; }
         public float Tamaño { get; set; }
         public string Descripcion { get; set; }
-        public string Mejoras { get; set; }
+        public string? Mejoras { get; set; }
         public string Imagenes { get; set; }
         public string AgenteId { get; set; }
         public string AgenteNombreCompleto { get; set; }

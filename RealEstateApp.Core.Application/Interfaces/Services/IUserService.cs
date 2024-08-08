@@ -12,6 +12,8 @@ namespace RealEstateApp.Core.Application.Services
         Task<ResetPasswordResponse> ResetPasswordAsyncs(ResetPasswordViewModel vm);
         Task SingoutAsyncs();
         Task<string> GetUserFullNameById(string userId);
+        Task UpdateUser(SaveUserViewModel model);
+
 
     }
 }

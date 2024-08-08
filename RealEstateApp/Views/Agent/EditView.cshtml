@@ -1,8 +1,7 @@
 ﻿@using RealEstateApp.Core.Application.ViewModels.Users;
-@using RealEstateApp.Core.Application.Enums;
-@model SaveUserViewModel
+@model SaveUserViewModel;
 @{
-    ViewData["Title"] = "Registro";
+    ViewData["Title"] = "Editar Usuario";
 }
 
 <div class="container-fluid">
@@ -11,23 +10,11 @@
         <div class="col-6 offset-3">
             <div class="card">
                 <div class="card-header bg-dark text-light">
-                    <h4>Registro de nuevo usuario</h4>
+                    <h4>Editando Mejora @Model.FirstName</h4>
                 </div>
                 <div class="card-body">
 
-                    @if (TempData["ModelErrors"] != null)
-                    {
-                        <div class="alert alert-danger alert-dismissible fade show" role="alert">
-                            <ul>
-                                @foreach (var error in (List<string>)TempData["ModelErrors"])
-                                {
-                                    <li>@error</li>
-                                }
-                            </ul>
-                            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-                        </div>
-                    }
-                    <form method="post" asp-controller="User" asp-action="Register" enctype="multipart/form-data">
+                    <form method="post" asp-controller="Agent" asp-action="Edit" enctype="multipart/form-data">
 
                         <div class="mb-3">
                             <label asp-for="FirstName" class="form-label">Nombre: </label>
@@ -46,7 +33,18 @@
                             <span asp-validation-for="Username" class="text-danger"></span>
                         </div>
 
-                        
+                        <div class="mb-3">
+                            <label asp-for="Password" class="form-label">Contraseña: </label>
+                            <input asp-for="Password" class="form-control" />
+                            <span asp-validation-for="Password" class="text-danger"></span>
+                        </div>
+
+                        <div class="mb-3">
+                            <label asp-for="ConfirmPassword" class="form-label">Confirmar contraseña: </label>
+                            <input asp-for="ConfirmPassword" class="form-control" />
+                            <span asp-validation-for="ConfirmPassword" class="text-danger"></span>
+                        </div>
+
                         <div class="mb-3">
                             <label asp-for="Phone" class="form-label">Telefono: </label>
                             <input asp-for="Phone" class="form-control" />
@@ -65,19 +63,11 @@
                             <span asp-validation-for="File" class="text-danger"></span>
                         </div>
 
-                        <div class="mb-3">
-                            <label asp-for="Tipo" class="form-label">Tipo: </label>
-                            <select asp-for="Tipo" class="form-control" id="tipoSelect">
-                                @foreach (var rol in Enum.GetValues(typeof(Roles)).Cast<Roles>().Where(r => r == Roles.AGENTE || r == Roles.CLIENTE))
-                                {
-                                    <option value="@rol">@rol</option>
-                                }
-                            </select>
-                            <span asp-validation-for="Tipo" class="text-danger"></span>
-                        </div>
+                        <input  type="hidden" asp-for="Id" name="Id"/>
+                        
 
                         <button type="submit" class="btn btn-primary">Save</button>
-                        <a asp-controller="User" asp-action="Index" class="btn btn-warning">Back</a>
+                        <a asp-controller="Agent" asp-action="Index" class="btn btn-warning">Back</a>
 
                     </form>
 

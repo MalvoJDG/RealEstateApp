@@ -7,13 +7,24 @@
     <h1 class="display-4">Tipos de Ventas</h1>
     <p>Controlador de tipos de ventas
 </div>
+<a class="btn btn-warning" asp-action="Index" asp-controller="Propiedad"> Volver </a>
 
 <a class="btn btn-success" asp-action="CreateView" asp-controller="TipoDeVenta"> Crear Tipo de Venta </a>
 
-@foreach (TipoVentaViewModel element in ViewBag.TipoVentas)
-{
-    <p>Nombre:  @element.Nombre </p>
-    <p>Descripcion:  @element.Descripcion </p>
-
-}
-
+<div class="container mt-5">
+    <div class="row">
+        @foreach (TipoVentaViewModel element in ViewBag.TipoVentas)
+        {
+            <div class="col-md-4">
+                <div class="card mb-3">
+                    <div class="card-body">
+                        <h5 class="card-title">@element.Nombre</h5>
+                        <p class="card-text"> @element.Descripcion</p>
+                        <a href="@Url.Action("Edit", new { id = element.Id })" class="btn btn-primary">Editar</a>
+                        <a href="@Url.Action("Delete", new { id = element.Id })" class="btn btn-danger">Eliminar</a>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+</div>

@@ -39,13 +39,14 @@ namespace RealEstateApp.Controllers
             return View(new SavePropiedadViewModel());
         }
 
-        public async Task<IActionResult> Create(SavePropiedadViewModel svm)
+        public async Task<IActionResult> Create(SavePropiedadViewModel svm, string selectedMejoras)
         {
-            if (!ModelState.IsValid)
-            {
-                return View("CreateView", svm);
-            }
 
+            svm.Mejoras = selectedMejoras;
+           
+            
+
+           
             if (svm.Files != null && svm.Files.Count > 0)
             {
                 List<string> imagenes = new List<string>();
@@ -59,7 +60,7 @@ namespace RealEstateApp.Controllers
 
             await _service.Add(svm);
 
-            return RedirectToRoute(new { controller = "Agent", action = "Index" });
+            return RedirectToRoute(new { controller = "Propiedad", action = "Index" });
         }
         private string UploadFile(IFormFile file, int id, bool isEditMode = false, string imagePath = "")
         {
