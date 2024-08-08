@@ -1,0 +1,107 @@
+﻿@model RealEstateApp.Core.Application.ViewModels.Propiedades.PropiedadViewModel
+
+@{
+    ViewData["Title"] = "Detalles de la Propiedad";
+    var imageList = Model.ObtenerListaImagenes();
+}
+
+<head>
+    <meta charset="UTF-8">
+    <title>@ViewData["Title"]</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet">
+    <style>
+        .property-details {
+            margin-top: 10px;
+        }
+
+        .card {
+            display: flex;
+            align-items: center;
+            padding: 10px 15px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            background-color: #f1f1f1;
+            width: fit-content;
+            font-family: Arial, sans-serif;
+            font-size: 14px;
+            color: #333;
+        }
+
+            .card .icon {
+                margin-right: 10px;
+            }
+
+                .card .icon::before {
+                    content: '✔️';
+                }
+    </style>
+</head>
+
+<div class="container">
+    <div class="row">
+        <div class="col-md-8">
+            @if (imageList.Count > 0)
+            {
+                <div id="propertyCarousel" class="carousel slide" data-bs-ride="carousel">
+                    <div class="carousel-inner">
+                        @for (int i = 0; i < imageList.Count; i++)
+                        {
+                            <div class="carousel-item @(i == 0 ? "active" : "")">
+                                <img src="@imageList[i]" class="d-block w-100" alt="Imagen de la propiedad @i">
+                            </div>
+                        }
+                    </div>
+                    <button class="carousel-control-prev" type="button" data-bs-target="#propertyCarousel" data-bs-slide="prev">
+                        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                        <span class="visually-hidden">Previous</span>
+                    </button>
+                    <button class="carousel-control-next" type="button" data-bs-target="#propertyCarousel" data-bs-slide="next">
+                        <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                        <span class="visually-hidden">Next</span>
+                    </button>
+                </div>
+            }
+            
+            <h1>@Model.Tipo</h1>
+            <p><strong>Código:</strong> @Model.Codigo</p>
+            <p><strong>Tipo de Venta:</strong> @Model.TipoVenta</p>
+            <p><strong>Valor:</strong> US$ @Model.Valor.ToString("N2")</p>
+            <div class="property-details">
+                <span class="mr-2"><i class="fas fa-bed"></i> @Model.CantidadHabitaciones Habitación(es)</span>
+                <span class="mr-2"><i class="fas fa-bath"></i> @Model.CantidadBaños Baño(s)</span>
+                <span><i class="fas fa-ruler-combined"></i> @Model.Tamaño mt<sup>2</sup></span>
+            </div>
+            <p class="mt-4"><strong>Descripción:</strong></p>
+            <p>@Model.Descripcion</p>
+            
+            <div class="mejoras">
+                <h3>Mejoras</h3>
+                <div class="card">
+                    <span class="icon"></span>
+                    <span>@Model.Mejoras</span>
+                </div>
+            </div>
+        </div>
+        
+        <div class="col-md-4">
+            <div class="card">
+                <img src="@Model.Foto" class="card-img-top" alt="Imagen del agente">
+                <div class="card-body text-center">
+                    <h5 class="card-title">@Model.AgenteNombreCompleto</h5>
+                    <p class="card-text">¿Estás Interesado(a)? Solicita Asesoría</p>
+                    <h6>Contacto</h6>
+                    <div class="d-flex justify-content-center align-items-center mt-2">
+                        <i class="bi bi-whatsapp me-2"></i>
+                        <p>@Model.Telefono</p>
+                    </div>
+                    <h6>Correo</h6>
+                    <div class="d-flex justify-content-center align-items-center mt-2">
+                        <i class="bi bi-envelope-fill me-2"></i>
+                        <p>@Model.Correo</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+

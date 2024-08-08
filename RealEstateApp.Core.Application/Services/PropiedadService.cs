@@ -1,27 +1,35 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Http;
-using Microsoft.EntityFrameworkCore;
 using RealEstateApp.Core.Application.Interfaces.Repositories;
 using RealEstateApp.Core.Application.Interfaces.Services;
 using RealEstateApp.Core.Application.ViewModels.Propiedades;
 using RealEstateApp.Core.Domain.Entities;
 using RealEstateApp.Core.Application.Helpers;
 using RealEstateApp.Core.Application.ViewModels.Agentes;
+using RealEstateApp.Core.Application.Dtos.Account;
+
 namespace RealEstateApp.Core.Application.Services
 {
     public class PropiedadService : GenericService<SavePropiedadViewModel, PropiedadViewModel, Propiedad>, IPropiedadService
     {
         private readonly IPropiedadRepository _propiedadRepository;
         private readonly IHttpContextAccessor _httpContextAccessor;
+        private readonly IFavoritoRepository _favoriteRepository;
+        private readonly IAgenteService22 _agenteService;
         private readonly IMapper _mapper;
+        private readonly IAccountService _accountService;
+        private readonly AuthenticationResponse userViewModel;
         private readonly AgenteViewModel _user;
 
-        public PropiedadService(IPropiedadRepository propiedadRepository, IHttpContextAccessor httpContextAccessor, IMapper mapper) : base(propiedadRepository, mapper)
+        public PropiedadService(IPropiedadRepository propiedadRepository, IHttpContextAccessor httpContextAccessor, IMapper mapper, IFavoritoRepository favoritoRepository, IAccountService accountService) : base(propiedadRepository, mapper)
         {
             _propiedadRepository = propiedadRepository;
             _httpContextAccessor = httpContextAccessor;
             _mapper = mapper;
             _user = httpContextAccessor.HttpContext.Session.Get<AgenteViewModel>("user");
+            userViewModel = httpContextAccessor.HttpContext.Session.Get<AuthenticationResponse>("user");
+            _favoriteRepository = favoritoRepository;
+            _accountService = accountService;
         }
 
         public async Task<int> GetPropiedadesCountByAgenteId(string agenteId)
@@ -54,5 +62,64 @@ namespace RealEstateApp.Core.Application.Services
               .Select(s => s[random.Next(s.Length)]).ToArray());
         }
 
+        public override async Task<List<PropiedadViewModel>> GetAllViewModel()
+        {
+            var propiedades = await _propiedadRepository.GetAllWithFavoritesAsync();
+            var userId = userViewModel.Id;
+
+            var result = propiedades.Select(propiedad =>
+            {
+                var viewModel = _mapper.Map<PropiedadViewModel>(propiedad);
+                viewModel.EsFavorita = propiedad.Favorito.Any(f => f.User_Id == userId);
+                return viewModel;
+            }).ToList();
+
+            return result;
+        }
+
+        public async Task<List<PropiedadViewModel>> GetAllFavoriteProperties(string userId)
+        {
+
+            var favoritos = await _favoriteRepository.GetAllAsync();
+            var propiedadIds = favoritos
+                .Where(favorito => favorito.User_Id == userId)
+                .Select(favorito => favorito.Propiedad_Id)
+                .ToList();
+
+            var todasPropiedades = await _propiedadRepository.GetAllAsync();
+
+            var propiedadesFavoritas = todasPropiedades
+                .Where(propiedad => propiedadIds.Contains(propiedad.Id))
+                .ToList();
+
+            var result = propiedadesFavoritas.Select(propiedad =>
+            {
+                var viewModel = _mapper.Map<PropiedadViewModel>(propiedad);
+                viewModel.EsFavorita = true; 
+                return viewModel;
+            }).ToList();
+
+            return result;
+        }
+
+        public async Task<PropiedadViewModel> GetByIdViewModel(int id)
+        {
+            var propiedad = await _propiedadRepository.GetByIdAsync(id);
+            var agente = await _accountService.GetUserByIdAsync(propiedad.AgenteId);
+            var viewModel = _mapper.Map<PropiedadViewModel>(propiedad);
+
+            viewModel.AgenteNombreCompleto = $"{agente.FirstName} {agente.LastName}";
+            viewModel.Correo = agente.Email;
+            viewModel.Telefono = agente.Phone;
+            viewModel.Foto = agente.ProfilePictureUrl;
+
+            
+
+            return viewModel;
+        }
+
+
+
     }
 }
+

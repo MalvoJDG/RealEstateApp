@@ -1,5 +1,4 @@
-﻿using MediatR;
-using Microsoft.Extensions.Configuration;
+﻿using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using RealEstateApp.Core.Application.Interfaces.Services;
 using RealEstateApp.Core.Application.Services;
@@ -21,6 +20,7 @@ namespace RealEstateApp.Core.Application
             services.AddTransient<IMejoraService, MejoraService>();
             services.AddTransient<IUserService, UserService>();
             services.AddTransient<IAgenteService22, AgenteService>();
+            services.AddTransient<IFavoritoService, FavoritoService>();
 
             #endregion
         }
