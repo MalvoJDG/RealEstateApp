@@ -3,29 +3,66 @@
 @{
     ViewData["Title"] = "Mejoras";
 }
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@ViewData["Title"]</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet">
+    <style>
+        .exclusive-badge {
+            position: absolute;
+            top: 10px;
+            left: 10px;
+            background-color: #007bff;
+            color: white;
+            padding: 5px 10px;
+            font-size: 14px;
+            font-weight: bold;
+            border-radius: 3px;
+        }
 
-<div class="text-center">
-    <h1 class="display-4">Mejoras</h1>
-    <p>Controlador de mejoras
-</div>
-<a class="btn btn-warning" asp-action="Index" asp-controller="Propiedad"> Volver </a>
+        .card-custom {
+            position: relative;
+            margin-bottom: 20px;
+        }
 
-<a class="btn btn-success" asp-action="CreateView" asp-controller="Mejora"> Crear Mejora </a>
 
-<div class="container mt-5">
-    <div class="row">
-        @foreach (MejoraViewModel element in ViewBag.Mejoras)
-        {
-            <div class="col-md-4">
-                <div class="card mb-3">
-                    <div class="card-body">
-                        <h5 class="card-title">@element.Nombre</h5>
-                        <p class="card-text"> @element.Descripcion</p>
-                        <a href="@Url.Action("Edit", new { id = element.Id })" class="btn btn-primary">Editar</a>
-                        <a href="@Url.Action("Delete", new { id = element.Id })" class="btn btn-danger">Eliminar</a>
+        .property-details {
+            margin-top: 10px;
+        }
+
+        .card-img-top {
+            height: 200px;
+            object-fit: cover;
+        }
+    </style>
+</head>
+<body>
+    <div class="text-center">
+        <h1 class="display-4">Mejoras</h1>
+        <p>Controlador de mejoras
+    </div>
+    <a class="btn btn-warning" asp-action="Index" asp-controller="Propiedad"> Volver </a>
+
+    <a class="btn btn-success" asp-action="CreateView" asp-controller="Mejora"> Crear Mejora </a>
+
+    <div class="container mt-5">
+        <div class="row">
+            @foreach (MejoraViewModel element in ViewBag.Mejoras)
+            {
+                <div class="col-md-4">
+                    <div class="card mb-3">
+                        <div class="card-body">
+                            <h5 class="card-title">@element.Nombre</h5>
+                            <p class="card-text"> @element.Descripcion</p>
+                            <a href="@Url.Action("Edit", new { id = element.Id })" class="btn btn-primary">Editar</a>
+                            <a href="@Url.Action("Delete", new { id = element.Id })" class="btn btn-danger">Eliminar</a>
+                        </div>
                     </div>
                 </div>
-            </div>
-        }
+            }
+        </div>
     </div>
-</div>
+</body>

@@ -17,22 +17,22 @@ namespace RealEstateApp.Controllers
 
         private readonly SaveUserViewModel _user;
         private readonly IHttpContextAccessor _contextAccessor;
-
         private readonly ValidateUserSession _validateUserSession;
-        private readonly IUserService _service;
-
+        private readonly IUserService _userService;
         private readonly IPropiedadService _service;
         private readonly AuthenticationResponse userViewModel;
 
 
 
-        public AgentController(IHttpContextAccessor httpContextAccessor, IPropiedadService propiedadService, ValidateUserSession _validateUserSession) {
+        public AgentController(IHttpContextAccessor httpContextAccessor, IPropiedadService propiedadService, ValidateUserSession _validateUserSession, IUserService userService = null)
+        {
 
             _user = httpContextAccessor.HttpContext.Session.Get<SaveUserViewModel>("user");
-
-            _pservice = propiedadService;
+            userViewModel = httpContextAccessor.HttpContext.Session.Get<AuthenticationResponse>("user");
+            _service = propiedadService;
             this._validateUserSession = _validateUserSession;
-            }
+            _userService = userService;
+        }
 
 
         public async Task<IActionResult> Index()
@@ -64,7 +64,7 @@ namespace RealEstateApp.Controllers
                 return View("EditView", model);
             }
 
-            await _service.UpdateUser(model);
+            await _userService.UpdateUser(model);
 
             return RedirectToRoute(new { controller = "TipoDePropiedad", action = "Index" });
         }
