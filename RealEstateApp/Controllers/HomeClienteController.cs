@@ -74,9 +74,9 @@ namespace RealEstateApp.Controllers
             return Ok();
         }
 
-        public async Task<IActionResult> Agentes()
+        public async Task<IActionResult> Agentes(string filterName)
         {
-            var agentes = await _agenteService.GetAllViewModelWithInclude();
+            var agentes = await _agenteService.GetAllViewModelWithInclude(filterName);
             return View(agentes);
         }
 
@@ -88,6 +88,12 @@ namespace RealEstateApp.Controllers
                 return NotFound();
             }
             return View(propiedad);
+        }
+
+        public async Task<IActionResult> PropiedadesPorAgente(string agenteId)
+        {
+            var propiedades = await _propiedadService.GetAllByAgente(agenteId);
+            return View(propiedades);
         }
 
     }

@@ -4,7 +4,6 @@
     ViewData["Title"] = "Listado de Agentes";
 }
 
-<!-- Hero Section -->
 <section class="jumbotron text-center">
     <div class="container">
         <h1 class="jumbotron-heading">Listado de agentes</h1>
@@ -12,31 +11,27 @@
 </section>
 
 <div class="container mt-5">
-    <!-- Search Form -->
     <div class="row mb-4">
         <div class="col-md-6 offset-md-3">
-            <form method="get" asp-action="Buscar">
-                <div class="input-group">
-                    <input type="text" class="form-control" placeholder="Nombre del agente" name="searchString" aria-label="Nombre del agente">
-                    <div class="input-group-append">
-                        <button class="btn btn-outline-secondary" type="submit"><i class="fa fa-search"></i></button>
-                    </div>
-                </div>
+            <form asp-controller="HomeCliente" asp-action="Agentes" method="get">
+                <input type="text" name="filterName" class="form-control" placeholder="Buscar por nombre" />
+                <button type="submit" class="btn btn-primary">Buscar</button>
             </form>
         </div>
     </div>
 
-    <!-- Agent List -->
     <div class="row">
         @foreach (var agente in Model)
         {
-            <div class="col-md-3">
-                <div class="card agent-card">
-                    <img src="@agente.Foto" class="card-img-top" alt="@agente.FirstName">
-                    <div class="card-body text-center">
-                        <h5 class="card-title">@agente.FirstName @agente.LastName</h5>
+            <div class="col-md-3 mb-4">
+                <a href="@Url.Action("PropiedadesPorAgente", "HomeCliente", new { agenteId = agente.Id })" class="text-decoration-none">
+                    <div class="card agent-card">
+                        <img src="@agente.Foto" class="card-img-top" alt="@agente.FirstName">
+                        <div class="card-body text-center">
+                            <h5 class="card-title">@agente.FirstName @agente.LastName</h5>
+                        </div>
                     </div>
-                </div>
+                </a>
             </div>
         }
     </div>

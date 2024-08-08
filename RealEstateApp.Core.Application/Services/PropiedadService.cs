@@ -62,9 +62,31 @@ namespace RealEstateApp.Core.Application.Services
               .Select(s => s[random.Next(s.Length)]).ToArray());
         }
 
+        public async Task<List<PropiedadViewModel>> GetAllByAgente(string agenteId)
+        {
+            var propiedades = await _propiedadRepository.GetAllWithFavoritesAsync();
+            var userId = userViewModel.Id;
+
+            var listViewModels = propiedades
+                .Where(propiedad => propiedad.AgenteId == agenteId)
+                .Select(propiedad =>
+                {
+                    var viewModel = _mapper.Map<PropiedadViewModel>(propiedad);
+                    if (userId != null)
+                    {
+                        viewModel.EsFavorita = propiedad.Favorito.Any(f => f.User_Id == userId);
+                    }
+                    return viewModel;
+                }).ToList();
+
+            return listViewModels;
+        }
+
+
+
         public async Task<List<PropiedadViewModel>> GetAllViewModelWithFilters(FilterPropiedadViewModel filters)
         {
-            // Obtener la lista de propiedades con las inclusiones necesarias
+
             var propiedades = await _propiedadRepository.GetAllWithFavoritesAsync();
             var userId = userViewModel.Id;
 
