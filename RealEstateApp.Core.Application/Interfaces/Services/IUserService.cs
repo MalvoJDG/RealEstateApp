@@ -1,4 +1,5 @@
-﻿using RealEstateApp.Core.Application.Dtos.Account;
+﻿using MiniProyectoBanking.Core.Application.Dtos.Account;
+using RealEstateApp.Core.Application.Dtos.Account;
 using RealEstateApp.Core.Application.ViewModels.Users;
 
 namespace RealEstateApp.Core.Application.Services
@@ -13,8 +14,9 @@ namespace RealEstateApp.Core.Application.Services
         Task SingoutAsyncs();
         Task<string> GetUserFullNameById(string userId);
         Task UpdateUser(SaveUserViewModel model);
-
+        Task<ConfirmEmailResponse> ConfirmUserEmailAsyncWeb(EditUsuarioViewModel vm);
         Task<AuthenticationResponse> LoginAsyncsweb(LoginViewModel vm);
+        Task<EditUsuarioViewModel> GetByIdAsync(string userId);
 
 
     }
