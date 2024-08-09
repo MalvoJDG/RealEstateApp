@@ -1,5 +1,4 @@
-﻿using Microsoft.AspNetCore.Http;
-using RealEstateApp.Core.Application.Helpers;
+﻿using RealEstateApp.Core.Application.Helpers;
 using RealEstateApp.Core.Application.Dtos.Account;
 
 namespace RealEstateApp.Middelwares
@@ -15,7 +14,7 @@ namespace RealEstateApp.Middelwares
 
         public bool HasUser()
         {
-            AuthenticationResponse userViewModel = _httpContextAccessor.HttpContext.Session.Get<AuthenticationResponse>("users");
+            AuthenticationResponse userViewModel = _httpContextAccessor.HttpContext.Session.Get<AuthenticationResponse>("user");
 
             if (userViewModel == null)
             {

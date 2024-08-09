@@ -32,7 +32,7 @@ namespace RedSocial.Controllers
             {
                 return View(vm);
             }
-            AuthenticationResponse userVm = await _userService.LoginAsyncs(vm);
+            AuthenticationResponse userVm = await _userService.LoginAsyncsweb(vm);
             if (userVm != null && !userVm.HasError)
             {
                 // Guardar información del usuario en la sesión

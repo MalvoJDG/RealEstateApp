@@ -19,6 +19,7 @@ namespace RealEstateApp.Core.Application.Interfaces.Services
         Task SingoutAsyncs();
         Task<string> GetUserFullNameById(string userId);
         Task<List<AuthenticationResponse>> GetAllUsersAsync();
+        Task<AuthenticationResponse> AutheticationAsyncWeb(AuthenticationRequest request);
         public Task UpdateUser(SaveUserViewModel model);
     }
 }

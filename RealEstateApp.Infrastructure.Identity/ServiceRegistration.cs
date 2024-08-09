@@ -44,7 +44,7 @@ namespace RealEstateApp.Infraestructure.Persistence
             #endregion
             services.ConfigureApplicationCookie(options =>
             {
-                options.LoginPath = "/User";
+                options.LoginPath = "/User/Index";
                 options.AccessDeniedPath = "/User/AccessDenied";
             });
 
