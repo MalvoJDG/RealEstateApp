@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using MiniProyectoBanking.Core.Application.Dtos.Account;
 using RealEstateApp.Core.Application.Dtos.Account;
 using RealEstateApp.Core.Application.Interfaces.Services;
 using RealEstateApp.Core.Application.ViewModels.Users;
@@ -61,6 +62,11 @@ namespace RealEstateApp.Core.Application.Services
             return await _accountService.ConfirmEmailAsync(userId, token);
         }
 
+        public async Task<ConfirmEmailResponse> ConfirmUserEmailAsyncWeb(EditUsuarioViewModel vm)
+        {
+            return await _accountService.ConfirmUserEmailAsync(vm);
+        }
+
         public async Task<ForgotPasswordResponse> ForgotPasswordAsync(ForgotPasswordViewModel vm, string token)
         {
             ForgotPasswordRequest ForgotrRequest = _mapper.Map<ForgotPasswordRequest>(vm);
@@ -87,6 +93,16 @@ namespace RealEstateApp.Core.Application.Services
            await  _accountService.UpdateUser(model);
         }
 
+        public async Task<EditUsuarioViewModel> GetByIdAsync(string userId)
+        {
+            var userDto = await _accountService.GetByIdAsync(userId);
+            if (userDto == null)
+            {
+                return null;
+            }
 
+            var editViewModel = _mapper.Map<EditUsuarioViewModel>(userDto);
+            return editViewModel;
+        }
     }
 }
