@@ -4,10 +4,10 @@ using RealEstateApp.Core.Application.Dtos.Account;
 using RealEstateApp.Core.Application.Interfaces.Services;
 using RealEstateApp.Core.Application.ViewModels.Propiedades;
 using Microsoft.AspNetCore.Authorization;
+using RealEstateApp.Middelwares;
 
 namespace RealEstateApp.Controllers
 {
-    [Authorize(Roles = "CLIENTE")]
     public class HomeClienteController : Controller
     {
         private readonly IAgenteService22 _agenteService;
@@ -16,8 +16,9 @@ namespace RealEstateApp.Controllers
         private readonly IHttpContextAccessor _httpContextAccessor;
         private readonly IFavoritoService _favoritoService;
         private readonly ITipoPropiedadService _tipoPropiedadService;
+        private readonly ValidateUserSession _validateUserSession;
 
-        public HomeClienteController(IAgenteService22 agenteService, IPropiedadService propiedadService, IHttpContextAccessor httpContextAccessor, IFavoritoService favoritoService, ITipoPropiedadService tipoPropiedadService)
+        public HomeClienteController(IAgenteService22 agenteService, IPropiedadService propiedadService, IHttpContextAccessor httpContextAccessor, IFavoritoService favoritoService, ITipoPropiedadService tipoPropiedadService, ValidateUserSession userSession)
         {
             _agenteService = agenteService;
             _propiedadService = propiedadService;

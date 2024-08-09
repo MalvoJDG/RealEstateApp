@@ -29,6 +29,15 @@ namespace RealEstateApp.Core.Application.Services
             return userResponse;
         }
 
+        public async Task<AuthenticationResponse> LoginAsyncsweb(LoginViewModel vm)
+        {
+
+            AuthenticationRequest Loginrequest = _mapper.Map<AuthenticationRequest>(vm);
+            AuthenticationResponse userResponse = await _accountService.AutheticationAsyncWeb(Loginrequest);
+
+            return userResponse;
+        }
+
         public async Task<RegisterResponse> RegisterAsyncs(SaveUserViewModel vm, string origin)
         {
             RegisterRequest RegisterRequest = _mapper.Map<RegisterRequest>(vm);

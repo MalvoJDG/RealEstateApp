@@ -2,13 +2,12 @@
 using RealEstateApp.Core.Application.Helpers;
 using RealEstateApp.Core.Application.ViewModels.Users;
 using RealEstateApp.Core.Application.Interfaces.Services;
-
-using RealEstateApp.Core.Application.ViewModels.TipoPropiedades;
 using RealEstateApp.Core.Application.Services;
 using RealEstateApp.Middelwares;
 
 using RealEstateApp.Core.Application.Dtos.Account;
-
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Authentication.Cookies;
 
 namespace RealEstateApp.Controllers
 {

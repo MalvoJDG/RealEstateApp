@@ -77,10 +77,24 @@
             
             <div class="mejoras">
                 <h3>Mejoras</h3>
-                <div class="card">
-                    <span class="icon"></span>
-                    <span>@Model.Mejoras</span>
-                </div>
+                @if (Model.ObtenerListaMejoras().Any())
+                {
+                    <div class="card">
+                        @foreach (var mejora in Model.ObtenerListaMejoras())
+                        {
+                            <div class="mejora-item">
+                                <span class="icon"></span>
+                                <span>@mejora</span>
+                            </div>
+                        }
+                    </div>
+                }
+                else
+                {
+                    <div class="card">
+                        <span>No hay mejoras disponibles.</span>
+                    </div>
+                }
             </div>
         </div>
         

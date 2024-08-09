@@ -36,5 +36,13 @@
         {
             return Imagenes?.Split(';').ToList() ?? new List<string>();
         }
+
+        public List<string> ObtenerListaMejoras()
+        {
+            return Mejoras?.Split(',', StringSplitOptions.RemoveEmptyEntries)
+                          .Select(m => m.Trim())
+                          .ToList()
+                   ?? new List<string>();
+        }
     }
 }

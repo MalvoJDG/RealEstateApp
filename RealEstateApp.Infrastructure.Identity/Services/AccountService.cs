@@ -268,6 +268,51 @@ namespace RealEstateApp.Infraestructure.Identity.Services
             return response;
         }
 
+
+        public async Task<AuthenticationResponse> AutheticationAsyncWeb(AuthenticationRequest request)
+        {
+            AuthenticationResponse response = new()
+            {
+                HasError = false
+            };
+
+            var user = await _userManager.FindByNameAsync(request.UserName);
+
+            if (user == null)
+            {
+                response.HasError = true;
+                response.Error = $"No Accounts register with {request.UserName}";
+                return response;
+            }
+
+            var result = await _signInManager.PasswordSignInAsync(user.UserName, request.Password, false, lockoutOnFailure: false);
+            if (!result.Succeeded)
+            {
+                response.HasError = true;
+                response.Error = $"Invalid Credentials for {request.UserName}";
+                return response;
+            }
+
+            if (!user.EmailConfirmed)
+            {
+                response.HasError = true;
+                response.Error = $"The email is not confirmed for {request.UserName}";
+                return response;
+            }
+
+            response.Id = user.Id;
+            response.Email = user.Email;
+            response.UserName = user.UserName;
+            response.ProfilePictureUrl = user.ProfilePictureUrl;
+
+            var roleList = await _userManager.GetRolesAsync(user).ConfigureAwait(false);
+            response.Roles = roleList.ToList();
+            response.IsVerified = user.EmailConfirmed;
+
+            return response;
+        }
+
+
         public async Task<RegisterResponse> RegisterAdminUserAsync(RegisterRequest request, string origin)
         {
             RegisterResponse response = new()
