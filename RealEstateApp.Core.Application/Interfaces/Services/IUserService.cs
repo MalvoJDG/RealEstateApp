@@ -14,6 +14,8 @@ namespace RealEstateApp.Core.Application.Services
         Task<string> GetUserFullNameById(string userId);
         Task UpdateUser(SaveUserViewModel model);
 
+        Task<AuthenticationResponse> LoginAsyncsweb(LoginViewModel vm);
+
 
     }
 }

@@ -3,22 +3,23 @@ using RealEstateApp.Infrastructure.Persistence;
 using RealEstateApp.Infraestructure.Shared;
 using RealEstateApp.Infraestructure.Persistence;
 using RealEstateApp.Middelwares;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Authentication;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
+builder.Services.AddSession();
 builder.Services.AddControllersWithViews();
 
 builder.Services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
-
+builder.Services.AddTransient<ValidateUserSession, ValidateUserSession>();
+builder.Services.AddScoped<LoginAuthorize>();
 builder.Services.AddPersistenceInfrastructure(builder.Configuration);
 builder.Services.AddApplicationLayer(builder.Configuration);
 builder.Services.AddSharedInfrastructure(builder.Configuration);
-builder.Services.AddSession();
 builder.Services.AddIdentityInfrastructure(builder.Configuration);
-builder.Services.AddScoped<LoginAuthorize>();
-builder.Services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
-builder.Services.AddTransient<ValidateUserSession, ValidateUserSession>();
+
 
 var app = builder.Build();
 
@@ -40,6 +41,20 @@ app.UseRouting();
 
 app.UseAuthentication();
 app.UseAuthorization();
+
+app.Use(async (context, next) =>
+{
+    // Aplicar autenticación JWT solo si es una API o Swagger
+    if (context.Request.Path.StartsWithSegments("/api") || context.Request.Path.StartsWithSegments("/swagger"))
+    {
+        await context.ChallengeAsync(JwtBearerDefaults.AuthenticationScheme);
+    }
+    else
+    {
+        await next();
+    }
+});
+
 
 app.MapControllerRoute(
     name: "default",

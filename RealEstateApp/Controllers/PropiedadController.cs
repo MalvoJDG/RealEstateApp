@@ -1,6 +1,9 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using RealEstateApp.Core.Application.ViewModels.Propiedades;
 using RealEstateApp.Core.Application.Interfaces.Services;
+using RealEstateApp.Core.Application.Dtos.Account;
+using Microsoft.AspNetCore.Http;
+using RealEstateApp.Core.Application.Helpers;
 
 namespace RealEstateApp.Controllers
 {
@@ -10,20 +13,23 @@ namespace RealEstateApp.Controllers
         private readonly IMejoraService mejoraService;
         private readonly ITipoVentaService tipoVentaService;
         private readonly ITipoPropiedadService tipoPropiedadService;
-        public PropiedadController(IPropiedadService service, IMejoraService mejoraService, ITipoVentaService tipoVentaService, ITipoPropiedadService tipoPropiedadService)
+        private readonly AuthenticationResponse userViewModel;
+        private readonly IHttpContextAccessor _contextAccessor;
+        public PropiedadController(IPropiedadService service, IMejoraService mejoraService, ITipoVentaService tipoVentaService, ITipoPropiedadService tipoPropiedadService, IHttpContextAccessor contextAccessor)
         {
             _service = service;
             this.mejoraService = mejoraService;
             this.tipoVentaService = tipoVentaService;
             this.tipoPropiedadService = tipoPropiedadService;
+            _contextAccessor = contextAccessor;
+            userViewModel = contextAccessor.HttpContext.Session.Get<AuthenticationResponse>("user");
         }
 
         public async Task<IActionResult> Index()
         {
-           
-            ViewBag.Propiedades = await _service.GetAllViewModel();
 
-            return View();
+            var propiedades = await _service.GetAllByAgente(userViewModel.Id);
+            return View(propiedades);
         }
 
         public async Task<ActionResult> CreateView()
