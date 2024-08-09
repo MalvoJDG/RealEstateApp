@@ -4,11 +4,6 @@ using RealEstateApp.Core.Application.ViewModels.TipoPropiedades;
 using RealEstateApp.Core.Application.ViewModels.TipoVentas;
 using RealEstateApp.Core.Application.ViewModels.Mejoras;
 using RealEstateApp.Core.Domain.Entities;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using RealEstateApp.Core.Application.Dtos.Account;
 using RealEstateApp.Core.Application.ViewModels.Users;
 using RealEstateApp.Core.Application.Features.Propiedad.Queries.GetAllPropiedades;
@@ -117,7 +112,6 @@ namespace RealEstateApp.Core.Application.Mappings
                 .ForMember(dest => dest.Mejoras, opt => opt.Ignore())
                 .ForMember(dest => dest.Imagenes, opt => opt.Ignore())
                 .ForMember(dest => dest.EsFavorita, opt => opt.Ignore());
-
             #endregion
 
             #region Register Request
@@ -128,6 +122,22 @@ namespace RealEstateApp.Core.Application.Mappings
                 .ForMember(dest => dest.Tipo, opt => opt.MapFrom(src => src.Rol))
                 .ReverseMap();
             #endregion
+
+            CreateMap<UserDto, UsuarioViewModel>()
+            .ForMember(dest => dest.Correo, opt => opt.MapFrom(src => src.Email))
+            .ForMember(dest => dest.NombreUsuario, opt => opt.MapFrom(src => src.UserName))
+            .ForMember(dest => dest.Estado, opt => opt.MapFrom(src => src.EmailConfirmed))
+            .ForMember(dest => dest.Tipo, opt => opt.MapFrom(src => src.Tipo))
+            .ForMember(dest => dest.Contraseña, opt => opt.Ignore())
+            .ReverseMap();
+
+            CreateMap<UserDto, EditUsuarioViewModel>()
+            .ForMember(dest => dest.Correo, opt => opt.MapFrom(src => src.Email))
+            .ForMember(dest => dest.NombreUsuario, opt => opt.MapFrom(src => src.UserName))
+            .ForMember(dest => dest.Estado, opt => opt.MapFrom(src => src.EmailConfirmed))
+            .ForMember(dest => dest.Tipo, opt => opt.MapFrom(src => src.Tipo))
+            .ForMember(dest => dest.Contraseña, opt => opt.Ignore())
+            .ReverseMap();
 
             #region Forgotviewmodel
             CreateMap<ForgotPasswordRequest, ForgotPasswordViewModel>()

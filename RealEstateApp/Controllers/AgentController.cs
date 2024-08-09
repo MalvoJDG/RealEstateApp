@@ -8,6 +8,8 @@ using RealEstateApp.Middelwares;
 using RealEstateApp.Core.Application.Dtos.Account;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Authentication.Cookies;
+using RealEstateApp.Infraestructure.Identity.Services;
+using AutoMapper;
 
 namespace RealEstateApp.Controllers
 {
@@ -20,10 +22,11 @@ namespace RealEstateApp.Controllers
         private readonly IUserService _userService;
         private readonly IPropiedadService _service;
         private readonly AuthenticationResponse userViewModel;
+        private readonly IAccountService _accountService;
 
 
 
-        public AgentController(IHttpContextAccessor httpContextAccessor, IPropiedadService propiedadService, ValidateUserSession _validateUserSession, IUserService userService = null)
+        public AgentController(IHttpContextAccessor httpContextAccessor, IPropiedadService propiedadService, ValidateUserSession _validateUserSession, IUserService userService = null, IAccountService accountService = null)
         {
 
             _user = httpContextAccessor.HttpContext.Session.Get<SaveUserViewModel>("user");
@@ -31,6 +34,7 @@ namespace RealEstateApp.Controllers
             _service = propiedadService;
             this._validateUserSession = _validateUserSession;
             _userService = userService;
+            _accountService = accountService;
         }
 
 
@@ -69,6 +73,7 @@ namespace RealEstateApp.Controllers
 
             return RedirectToRoute(new { controller = "TipoDePropiedad", action = "Index" });
         }
+
     }
 }
 

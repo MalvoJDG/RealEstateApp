@@ -14,7 +14,7 @@ using System.Text;
 using System.Security.Cryptography;
 using RealEstateApp.Core.Application.ViewModels.Users;
 using System.Security.Policy;
-
+using MiniProyectoBanking.Core.Application.Dtos.Account;
 
 namespace RealEstateApp.Infraestructure.Identity.Services
 {
@@ -595,5 +595,78 @@ namespace RealEstateApp.Infraestructure.Identity.Services
             // Apply the changes if any to the db
             await _userManager.UpdateAsync(user);
         }
+
+        public async Task<UserDto> GetByIdAsync(string userId)
+        {
+            var user = await _userManager.FindByIdAsync(userId);
+            if (user == null)
+            {
+                return null;
+            }
+
+            var userDto = new UserDto
+            {
+                Id = user.Id,
+                UserName = user.UserName,
+                Email = user.Email,
+                Nombre = user.FirstName,
+                Apellido = user.LastName,
+                EmailConfirmed = user.EmailConfirmed,
+                Tipo = await GetUserTypeAsync(user.Id)
+            };
+
+            return userDto;
+        }
+
+        public async Task<string> GetUserTypeAsync(string userId)
+        {
+            var user = await _userManager.FindByIdAsync(userId);
+            if (user == null)
+            {
+                return null;
+            }
+
+            if (await _userManager.IsInRoleAsync(user, Roles.ADMIN.ToString()))
+            {
+                return "Admin";
+            }
+            else if (await _userManager.IsInRoleAsync(user, Roles.AGENTE.ToString()))
+            {
+                return "Agente";
+            }
+            else
+            {
+                // Definir un comportamiento por defecto o manejar otros roles según sea necesario
+                return "Otro";
+            }
+        }
+
+        public async Task<ConfirmEmailResponse> ConfirmUserEmailAsync(EditUsuarioViewModel vm)
+        {
+            ConfirmEmailResponse response = new ConfirmEmailResponse
+            {
+                HasError = false
+            };
+
+            var user = await _userManager.FindByIdAsync(vm.Id);
+            if (user == null)
+            {
+                response.HasError = true;
+                response.Error = "User not found.";
+                return response;
+            }
+
+            user.EmailConfirmed = !user.EmailConfirmed;
+            var result = await _userManager.UpdateAsync(user);
+            if (!result.Succeeded)
+            {
+                response.HasError = true;
+                response.Error = "Error confirming email.";
+                return response;
+            }
+
+            return response;
+        }
+
     }
 }
